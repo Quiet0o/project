@@ -1,7 +1,7 @@
 import './App.css';
 import { useState,useEffect } from 'react';
-import Signin from './componets/Signin'
-import Register from './componets/Register'
+import SingIn from "./componets/SignIn"
+
 
 function App() {
 
@@ -22,8 +22,8 @@ function App() {
       <h1>Dupa</h1>
       <button onClick={()=>setclickedButton(!clickedButton)} >{clickedButton.toString()}</button>
       <button onClick={()=>setcount(count+1)} >{count}</button> 
-      <Signin/>
-      <Register/>
+      <SingIn/>
+      {/* <Register/>  */}
     </div>
   );
 }

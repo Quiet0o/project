@@ -1,41 +1,50 @@
 import React from 'react'
-import {useFormik} from "formik"
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { FacebookAuthProvider } from "firebase/auth";
 
 
-const Signin=()=>{
 
-    const formik =useFormik({
-        initialValues: { email: "" ,password: ""},
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-        }
-    })
+firebase.initializeApp({
+    apiKey:"AIzaSyBYfecFlYj8-y5N5lt5MstLPTsJ8jO2cWs",
+    authDomain: "karina-projec.firebaseapp.com",
+    projectId: "karina-projec",
+    storageBucket: "karina-projec.appspot.com",
+    messagingSenderId: "840056781037",
+    appId: "1:840056781037:web:e3b6502ef0891610aaf4e4",
+    measurementId: "G-TRDRE1HY9C"
+  });
+  
+  
+  const auth = firebase.auth();
+  const provider = new firebase.auth.FacebookAuthProvider();
 
-    return(
-        <form onSubmit={formik.handleSubmit}>
-            <input 
-                id="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                name="email"
-                type="email"                 
-                placeholder="podaj email"
-                required
-               />
-               <br/> 
-               <input 
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="podaj password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    required
-               />
-               <br/> 
-            <button type="submit">Submit</button>
-        </form>
-    )
+
+const SignIn=()=>{
+
+    const SingInWithGoogle =()=>{
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider);
+      }
+
+      const SingInWithFacebook =()=>{
+        auth.signInWithPopup(provider)
+      }
+
+      const SingInWithGithub =()=>{
+        const provider = new firebase.auth.GithubAuthProvider();
+        auth.signInWithPopup(provider);
+      }
+
+      return(
+        <div>
+          
+          <button onClick={SingInWithGoogle}>Sing in with Google account</button>
+          <button onClick={SingInWithFacebook}>Sing in with FacebookAuthProvider account</button>
+          <button onClick={SingInWithGithub}>Sing in with Github account</button>
+        </div>
+      )
 }
 
-export default Signin;
+export default SignIn;
