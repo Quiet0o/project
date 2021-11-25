@@ -1,10 +1,6 @@
 import React from 'react'
 import firebase from 'firebase/compat/app';
-import app from '../firebase'
-
-
-const auth = app.auth();
-
+import auth from '../firebase'
 const SingIn= ()=>{
     const SingInWithGoogle =()=>{
         const provider = new firebase.auth.GoogleAuthProvider();

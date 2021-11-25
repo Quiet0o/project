@@ -1,27 +1,19 @@
 import './App.css';
-import SingIn from './componets/SignIn';
-import auth from './firebase'
-const SingOut =()=>{
-  
-  const logout =()=>{
-   return  auth.signOut();
-  }
+// import SingIn from './componets/SignIn';
+// import UserSingOut from './componets/UserSingOut'
+// import Register from './componets/Register';
+// import{useAuthState} from 'react-firebase-hooks/auth';
+// import {useCollectionData} from 'react-firebase-hooks/firestore';
+// import auth from './componets/confing/firebase';
 
-  return(
-    <button onClick={logout}>Sing out with Google account</button>
-  )
-}
+import AddProducts from './componets/AdminPage/AddProducts'
+
 function App() {
-
   return (
     <div className="App">
-    
-      <h1>SUPER SKLEP</h1>
-      <SingIn/>
-      {/* <p>{auth.currentUser.email}</p>
-      <p>{auth.currentUser.displayName}</p>
-      <img src={auth.currentUser.photoURL}/> */}
-      <SingOut/>
+      
+      <AddProducts/>
+
       <footer>Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻</footer>
     </div>
   );
