@@ -23,7 +23,6 @@ const AddProducts=()=>{
             })
         }
     }
-// dsad
     function CreateProduct (event){
        event.preventDefault();
        const elements = [...event.target.elements];
