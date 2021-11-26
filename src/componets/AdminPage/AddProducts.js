@@ -6,8 +6,10 @@ import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/sto
 const AddProducts=()=>{
     let photoUrl =""
 
-    const [file,setFile]= useState(null)
-    const handleImage=()=>{
+    const  [file,setFile]= useState(null)
+    
+    const HandleAddingProducts=(event)=>{
+        event.preventDefault();
         if (file != null) {
             console.log(file.name)
             
@@ -16,19 +18,23 @@ const AddProducts=()=>{
 
             uploadBytes(storageRef,file).then((snapshot)=>{
                 console.log("uploaded");
+            }).then(()=>{
+                    getDownloadURL(uploadURL.snapshot.ref).then((downloadURL)=>{
+                    console.log(downloadURL);
+                    photoUrl =  downloadURL;
+                    CreateProduct(event);
+
+                })
             })
-            getDownloadURL(uploadURL.snapshot.ref).then((downloadURL)=>{
-                console.log(downloadURL);
-                photoUrl =  downloadURL;
-            })
+            
         }
     }
     
     function CreateProduct (event){
-       event.preventDefault();
-       const elements = [...event.target.elements];
+        console.log(photoUrl)
+        const elements = [...event.target.elements];
 
-       const formData = elements.reduce((accumulator, currentValue)=>{
+        const formData = elements.reduce((accumulator, currentValue)=>{
            if (currentValue.id) {
                 accumulator[currentValue.id] = currentValue.value
                 if (currentValue.id === "product-image") {
@@ -42,7 +48,7 @@ const AddProducts=()=>{
            return accumulator;
        },{})
        console.log({formData});
-       addDoc(collection(db,"test"),formData)
+       addDoc(collection(db,"Products"),formData)
        setTimeout(()=>{
            window.location.reload(false);
        },500);
@@ -51,7 +57,7 @@ const AddProducts=()=>{
     return(
         <div className="Add-Product">
           <h2>Add Product</h2>
-          <form onSubmit={CreateProduct}>
+          <form onSubmit={HandleAddingProducts}>
                 <input 
                     type="text" 
                     name="title"
@@ -90,7 +96,6 @@ const AddProducts=()=>{
                 <br/>
                 <input 
                     type="submit"
-                    onClick={handleImage()}
                 />
             </form>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import auth from '../firebase';
+import auth from './confing/firebase-config';
 const UserSingOut =()=>{
 
   return auth.currentUser && (
