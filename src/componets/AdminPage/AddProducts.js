@@ -5,7 +5,7 @@ import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/sto
 
 const AddProducts=()=>{
     let photoUrl =""
-
+    let status = "";
     const  [file,setFile]= useState(null)
     
     const HandleAddingProducts=(event)=>{
@@ -37,7 +37,7 @@ const AddProducts=()=>{
         const formData = elements.reduce((accumulator, currentValue)=>{
            if (currentValue.id) {
                 accumulator[currentValue.id] = currentValue.value
-                if (currentValue.id === "product-image") {
+                if (currentValue.id === "photoUrl") {
                    currentValue.src = photoUrl;
                    accumulator[currentValue.id] = currentValue.src
                 }
@@ -50,7 +50,8 @@ const AddProducts=()=>{
        console.log({formData});
        addDoc(collection(db,"Products"),formData)
        setTimeout(()=>{
-           window.location.reload(false);
+            window.location.reload(false);
+            status="sending";
        },500);
     }
 
@@ -82,12 +83,11 @@ const AddProducts=()=>{
                     id="description"
                     placeholder="podaj opis produktu"
                     required
-
                 />
                 <br/>
                 <input 
-                    id="product-image"
-                    name="product-image"
+                    id="photoUrl"
+                    name="photoUrl"
                     type="file"
                     accpet="image"
                     onChange={(e)=>setFile(e.target.files[0])}
@@ -97,6 +97,7 @@ const AddProducts=()=>{
                 <input 
                     type="submit"
                 />
+                <p>{status}</p>
             </form>
         </div>
         
