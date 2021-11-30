@@ -6,7 +6,7 @@ import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/sto
 const AddProducts=()=>{
 
 
-    let photoUrl =""
+    // let photoUrl =""
     const  [file,setFile]= useState(null)
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState("")
@@ -24,17 +24,14 @@ const AddProducts=()=>{
                 console.log("uploaded");
             }).then(()=>{
                     getDownloadURL(uploadURL.snapshot.ref).then((downloadURL)=>{
-                    console.log(downloadURL);
-                    photoUrl =  downloadURL;
-                    CreateProduct(event);
-
+                    CreateProduct(downloadURL);
                 })
             })
             
         }
     }
     
-    function CreateProduct (event){
+    function CreateProduct (photoUrl){
         const formData = {
             title: title,
             price: price,
@@ -44,7 +41,7 @@ const AddProducts=()=>{
         }
        console.log({formData});
        addDoc(collection(db,"Products"),formData).then(()=>{
-            window.location.reload(false)
+           window.location.reload(false);
        })
 
     }
@@ -67,7 +64,6 @@ const AddProducts=()=>{
                 <input 
                     value={price}
                     onChange={(e)=>setPrice(e.target.value)}
-
                     type="number"
                     step="0.01" 
                     name="price"
@@ -79,7 +75,6 @@ const AddProducts=()=>{
                 <input 
                     value={description}
                     onChange={(e)=>setDescription(e.target.value)}
-
                     type="text" 
                     name="description"
                     id="description"
