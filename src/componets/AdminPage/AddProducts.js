@@ -5,7 +5,6 @@ import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/sto
 
 const AddProducts=()=>{
     let photoUrl =""
-    let status = "";
     const  [file,setFile]= useState(null)
     
     const HandleAddingProducts=(event)=>{
@@ -47,12 +46,11 @@ const AddProducts=()=>{
            }
            return accumulator;
        },{})
-       console.log({formData});
-       addDoc(collection(db,"Products"),formData)
-       setTimeout(()=>{
+        console.log({formData});
+        addDoc(collection(db,"Products"),formData).then(()=>{
             window.location.reload(false);
-            status="sending";
-       },500);
+        })
+
     }
 
     return(
@@ -97,7 +95,6 @@ const AddProducts=()=>{
                 <input 
                     type="submit"
                 />
-                <p>{status}</p>
             </form>
         </div>
         
