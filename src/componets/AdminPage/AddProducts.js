@@ -1,11 +1,16 @@
 import React,{useState}from 'react'
 import { db,storage } from '../confing/firebase-config';
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/storage";
 
 const AddProducts=()=>{
+
+
     let photoUrl =""
     const  [file,setFile]= useState(null)
+    const [title, setTitle] = useState("")
+    const [price, setPrice] = useState("")
+    const [description, setDescription] = useState("")
     
     const HandleAddingProducts=(event)=>{
         event.preventDefault();
@@ -30,26 +35,17 @@ const AddProducts=()=>{
     }
     
     function CreateProduct (event){
-        console.log(photoUrl)
-        const elements = [...event.target.elements];
-
-        const formData = elements.reduce((accumulator, currentValue)=>{
-           if (currentValue.id) {
-                accumulator[currentValue.id] = currentValue.value
-                if (currentValue.id === "photoUrl") {
-                   currentValue.src = photoUrl;
-                   accumulator[currentValue.id] = currentValue.src
-                }
-                if (currentValue.id === accumulator[currentValue.id]) {
-                    currentValue.value = null;
-                }
-           }
-           return accumulator;
-       },{})
-        console.log({formData});
-        addDoc(collection(db,"Products"),formData).then(()=>{
-            window.location.reload(false);
-        })
+        const formData = {
+            title: title,
+            price: price,
+            description: description,
+            photoUrl: photoUrl,
+            timestamp:Timestamp.now()
+        }
+       console.log({formData});
+       addDoc(collection(db,"Products"),formData).then(()=>{
+            window.location.reload(false)
+       })
 
     }
 
@@ -58,6 +54,8 @@ const AddProducts=()=>{
           <h2>Add Product</h2>
           <form onSubmit={HandleAddingProducts}>
                 <input 
+                    value={title}
+                    onChange={(e)=>setTitle(e.target.value)}
                     type="text" 
                     name="title"
                     id="title"
@@ -67,6 +65,9 @@ const AddProducts=()=>{
                 <br/>
 
                 <input 
+                    value={price}
+                    onChange={(e)=>setPrice(e.target.value)}
+
                     type="number"
                     step="0.01" 
                     name="price"
@@ -76,6 +77,9 @@ const AddProducts=()=>{
                     />
                 <br/>
                 <input 
+                    value={description}
+                    onChange={(e)=>setDescription(e.target.value)}
+
                     type="text" 
                     name="description"
                     id="description"
