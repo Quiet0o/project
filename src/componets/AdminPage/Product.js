@@ -7,7 +7,7 @@ const Product =({props})=>{
            <p> description:  {props.description}</p>
            <p> price:  {props.price} zł</p>
             <img 
-                width="200px" 
+                width="100px"
                 height="100px"
                 src={props.photoUrl}
                 alt={props.title}

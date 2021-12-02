@@ -1,22 +1,31 @@
 import React from 'react'
-import firebase from 'firebase/compat/app';
-// import auth from './confing/firebase'
-import {signInWithPopup} from 'firebase/auth';
-import { auth,GoogleProvider } from './confing/firebase-config';
+import {signInWithPopup,GoogleAuthProvider,FacebookAuthProvider,GithubAuthProvider} from 'firebase/auth';
+import { auth } from './confing/firebase-config';
 const SingIn= ()=>{
     const SingInWithGoogle =()=>{
-        const provider = new firebase.auth.GoogleAuthProvider();
-      
+      // const provider =
+        signInWithPopup(auth , new GoogleAuthProvider());
+    
       }
   
       const SingInWithFacebook =()=>{
-        const provider = new firebase.auth.FacebookAuthProvider();
-        auth.signInWithPopup(provider)
+        const provider = new FacebookAuthProvider();
+        provider.setCustomParameters({
+          'display':'popup'
+        })
+        signInWithPopup(auth , provider).then((result)=>{
+          const credential = FacebookAuthProvider.credentialFromResult(result);
+          const accessToken = credential.accessToken;
+          console.log(accessToken);
+        }).catch(()=>{
+
+        });
+
       }
   
       const SingInWithGithub =()=>{
-        const provider = new firebase.auth.GithubAuthProvider();
-        auth.signInWithPopup(provider);
+        signInWithPopup(auth , new GithubAuthProvider());
+
       }
   
       return(

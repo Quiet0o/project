@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore/lite";
 import {getStorage } from "firebase/storage";
 import {getAuth,GoogleAuthProvider} from "firebase/auth"
 
@@ -13,10 +13,9 @@ const firebaseApp = initializeApp({
   measurementId: process.env.REACT_APP_MEASURMENT_ID
 });
   
-const db = getFirestore();
+const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
-const auth = getAuth();
-const GoogleProvider = new GoogleAuthProvider();
+const auth = getAuth(firebaseApp);
 
-export {db,storage,auth ,GoogleProvider,firebaseApp};
+export {db,storage,auth ,firebaseApp};
 
