@@ -1,13 +1,22 @@
 import './App.css';
-import AddProducts from './componets/AdminPage/AddProducts'
-import ShowProducts from './componets/AdminPage/ShowProducts'
-import SingIn from './componets/Signin'
+import AdminPage from "./componets/AdminPage/AdminPage"
+import ErrorPage from "./componets/ErrorPage"
+import ShowProducts from './componets/ProductComponets/ShowProducts'
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
+import SingleProduct from './componets/ProductComponets/SingleProduct';
+// import SingIn from './componets/Signin'
 function App() {
   return (
     <div className="App">
-        <SingIn/>
-      <AddProducts/>
-      <ShowProducts/>
+        {/* <SingIn/> */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ShowProducts/>}/>
+            <Route path="/admin" element={<AdminPage/>}/>
+            <Route path="/product/:ProductId" element={<SingleProduct/>}/>
+            <Route path="*" element={<ErrorPage/>}/>       
+          </Routes>
+        </BrowserRouter>
 
 
       <footer>Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻</footer>

@@ -34,7 +34,7 @@ const AddProducts=()=>{
     function CreateProduct (photoUrl){
         const formData = {
             title: title,
-            price: price,
+            price: parseFloat(price),
             description: description,
             photoUrl: photoUrl,
             timestamp:Timestamp.now()
@@ -86,7 +86,7 @@ const AddProducts=()=>{
                     id="photoUrl"
                     name="photoUrl"
                     type="file"
-                    accpet="image"
+                    accept=".jpeg,.gif,.png,.jpg" 
                     onChange={(e)=>setFile(e.target.files[0])}
                     placeholder="dolacz zdj produktu"
                 />

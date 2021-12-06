@@ -1,3 +1,14 @@
 .App{
     text-align: center;
 }
+.all-product {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+.product-img{
+    width: 200px;
+    height:200px
+}
+.Single-product{
+    margin: 20px;
+}
