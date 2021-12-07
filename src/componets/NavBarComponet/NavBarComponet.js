@@ -4,7 +4,7 @@ import Mainlogo from "../../img/logo.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 const NavBarComponet = () => {
   return (
-    <div className="main">
+    <div className="nav-main">
       <div id="baner">
         <div id="logo">
           <Link to="/">
@@ -13,7 +13,7 @@ const NavBarComponet = () => {
         </div>
         <div id="search">
           <div id="wyszukaj">
-            <AiOutlineSearch style={{ height: "47px", fontSize: "1.6em" }} />
+            <AiOutlineSearch className="search-icon" style={{ height: "47px", fontSize: "1.6em" }} />
           </div>
           <input type="text" id="wpisz" placeholder="search" />
         </div>

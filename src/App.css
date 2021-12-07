@@ -1,5 +1,7 @@
 .App{
     text-align: center;
+    display:flex; 
+    flex-direction:column; 
 }
 .all-product {
     display: grid;
@@ -60,7 +62,7 @@
 input#wpisz:focus{
     outline-width: 0;
 }
-.product-img-all:hover{
+.product-img-all:hover,.search-icon:hover,.admin-close-alert-icon:hover{
     cursor: pointer;
 }
 .product-img-single{
@@ -68,4 +70,18 @@ input#wpisz:focus{
     width: 30%;
     height: 40%;
     margin-left:5%;
+}
+footer{
+    margin-top:auto; 
+  }
+.error-title{
+    font-size:5em;
+}
+.error-icon{
+    margin-top:10vh;
+    font-size:15em;
+}
+.admin-close-alert-icon{
+    float: right;
+    font-size:1.5em;
 }

@@ -8,7 +8,6 @@ import NavBarComponet from "./componets/NavBarComponet/NavBarComponet";
 function App() {
   return (
     <div className="App">
-      {/* <SingIn/> */}
       <BrowserRouter>
         <NavBarComponet />
         <Routes>

@@ -46,8 +46,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="single-product-page">
-        
+    <div className="single-product-page">     
       <ProductElement />
     </div>
   );

@@ -1,17 +1,19 @@
-import React,{useState}from 'react'
+import React,{useState,useEffect}from 'react'
 import { db,storage } from '../confing/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
-import { ref,uploadBytes,getDownloadURL,uploadBytesResumable} from "firebase/storage";
-
+import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
+import { ProgressBar,Alert } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {AiOutlineCloseCircle} from "react-icons/ai"
 const AddProducts=()=>{
-
-
-    // let photoUrl =""
     const  [file,setFile]= useState(null)
+    const [show,setShow]=useState(false)
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState("")
     const [description, setDescription] = useState("")
-    
+    let progressbar=0;
+    const [progress ,setProgress] = useState(0)
+
     const HandleAddingProducts=(event)=>{
         event.preventDefault();
         if (file != null) {
@@ -19,6 +21,13 @@ const AddProducts=()=>{
             
             const storageRef = ref(storage,`images/product_images/${file.name}`);
             const uploadURL = uploadBytesResumable(storageRef, file);
+
+            uploadURL.on('state_changed', 
+            (snapshot) => {
+                progressbar = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                setProgress(progressbar)
+                console.log('Upload is ' + Math.floor(progress) + '% done');
+            })
 
             uploadBytes(storageRef,file).then((snapshot)=>{
                 console.log("uploaded");
@@ -41,13 +50,24 @@ const AddProducts=()=>{
         }
        console.log({formData});
        addDoc(collection(db,"Products"),formData).then(()=>{
-           window.location.reload(false);
+            setShow(!show)
        })
 
     }
-
+    // useEffect(()=>{
+    //     window.location.reload(false);
+    // },[show])
     return(
         <div className="Add-Product">
+        <Alert show={show} variant="success">
+            <Alert.Heading>
+                Success addded Product
+            <AiOutlineCloseCircle
+                onClick={()=>{setShow(!show)}}
+                className="admin-close-alert-icon"
+            />
+            </Alert.Heading>    
+        </Alert>
           <h2>Add Product</h2>
           <form onSubmit={HandleAddingProducts}>
                 <input 
@@ -90,6 +110,11 @@ const AddProducts=()=>{
                     onChange={(e)=>setFile(e.target.files[0])}
                     placeholder="dolacz zdj produktu"
                 />
+                <br />
+                <center>
+                    {file ?<ProgressBar variant="success" striped animated now={progress} style={{width:"10vw"}} /> :<></> }
+                </center>
+
                 <br/>
                 <input 
                     type="submit"
