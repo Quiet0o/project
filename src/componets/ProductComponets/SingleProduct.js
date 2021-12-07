@@ -1,25 +1,57 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import  {getDoc,doc }  from "firebase/firestore"; 
 import { db } from '../confing/firebase-config';
-
+import Product from './Product';
+import ErrorPage from "../ErrorPage"
 import { useParams } from 'react-router';
+
 const SingleProduct =()=>{
-    let {ProductId} = useParams();
-    const getSingleProduct =[];
-    
-    const showOneProduct = async(docId) =>{
-        const docRef = doc(db, "Products",docId);
-        let docSnap = await getDoc(docRef);
-        
-        getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
 
-        // log.info(getSingleProduct)
+    const {ProductId} = useParams();
 
-        console.log(getSingleProduct)
+    const [exists, setExists] = useState(true);
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const showOneProduct = async() => {
+            const getSingleProduct = [];
+
+            const docRef = doc(db, "Products",ProductId);
+            
+            let docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                
+                getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
+                setProducts([...getSingleProduct])
+            }
+            else {
+                setExists(false)
+            }
+        }
+
+        showOneProduct()
+    }, [])
+
+
+    const ProductElement = () => {
+
+        if (exists) {
+            return products.map(product => {
+                return <Product props={product} key={product.id} descExits={true}/>
+            })
+        } 
+
+        return <ErrorPage />;
     }
-    showOneProduct(ProductId)
-    return (
-        <p>{ProductId}</p>
+
+    return ( 
+        <div className='single-product-page'>       
+
+            <ProductElement/>
+
+        </div>     
         )
 }
 export default SingleProduct;
