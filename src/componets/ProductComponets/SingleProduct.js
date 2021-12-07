@@ -1,34 +1,57 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import  {getDoc,doc }  from "firebase/firestore"; 
 import { db } from '../confing/firebase-config';
-import ErrorPage from '../ErrorPage';
+import Product from './Product';
+import ErrorPage from "../ErrorPage"
 import { useParams } from 'react-router';
+
 const SingleProduct =()=>{
-    let {ProductId} = useParams();
-    const getSingleProduct =[];
-    const [err,setErr]= useState(false)
-    const showOneProduct = async(docId) =>{
-        const docRef = doc(db, "Products",docId);
-        let docSnap = await getDoc(docRef).then(()=>{
-            getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
+
+    const {ProductId} = useParams();
+
+    const [exists, setExists] = useState(true);
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const showOneProduct = async() => {
+            const getSingleProduct = [];
+
+            const docRef = doc(db, "Products",ProductId);
             
-        }).catch(()=>{
-            // <ErrorPage/>
-            setErr(!err)
-        });
-        
-        // getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
+            let docSnap = await getDoc(docRef);
 
-        // log.info(getSingleProduct)
+            if (docSnap.exists()) {
+                
+                getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
+                setProducts([...getSingleProduct])
+            }
+            else {
+                setExists(false)
+            }
+        }
 
-        console.log(getSingleProduct)
+        showOneProduct()
+    }, [])
+
+
+    const ProductElement = () => {
+
+        if (exists) {
+            return products.map(product => {
+                return <Product props={product} key={product.id} descExits={true}/>
+            })
+        } 
+
+        return <ErrorPage />;
     }
-    // showOneProduct(ProductId)
-    return (
-        <div className="">
-               <p> {err.valueOf}</p>
-                <p>{ProductId}</p>
-            </div>
+
+    return ( 
+        <div className='single-product-page'>       
+
+            <ProductElement/>
+
+        </div>     
         )
 }
 export default SingleProduct;

@@ -9,12 +9,8 @@ const ShowProducts=()=>{
     
     let navigate = useNavigate();
     const [products, setproducts] = useState([])
-    // const [singleProduct, setSingleProduct] = useState([])
-    // const [productsInCart,setProductsInCart] = useState([])
     const  productInCart =[];
-    // const [dupa,setdupa] = useState([])
     let Cartsize=productInCart.length;
-    // let [size , setSize ] = useState(0); 
 
     const ShowAllProducts= async ()=>{
         const getProducts =[];
@@ -28,35 +24,12 @@ const ShowProducts=()=>{
             })
             setproducts([...getProducts])
         });
-        console.log(getProducts)
 
     }
-
-    // const showOneProduct = async(docId) =>{
-    //     // console.log("----------------------------ONe--------------------");
-    //     const getSingleProduct =[];
-    //     const docRef = doc(db, "Products",docId);
-    //     let docSnap = await getDoc(docRef);
-    //     // console.log(docSnap.data())
-
-    //     getSingleProduct.push({key:docSnap.id, ...docSnap.data()})
-
-    //     console.log(getSingleProduct);
-    //     // setSingleProduct(...getSingleProduct)
-    //     // console.log(singleProduct);
-    //     // console.clear()
-    // }
 
     const AddingProductToCart=(props)=>{
         productInCart.push(props)
         console.log(productInCart)
-        // console.log(productInCart.length)
-        // Cartsize = productInCart.length
-        // console.log(Cartsize)
-        // productInCart.forEach((product)=>{
-        //     console.log(product)
-        // })
-        
     }
 
     useEffect(()=>{
@@ -70,12 +43,9 @@ const ShowProducts=()=>{
             { products && products.length>0 &&
             products.map((product)=> 
             <div className="Single-product">
-                <Product props={product} key={product.id}/>
-                <button onClick={()=>{navigate(`/product/${product.key}`)}}>Single Product values</button>
-                {/* <button>{product.key}</button> */}
+                <Product props={product} key={product.id} descExits={false}/>
+                {/* <button onClick={()=>{navigate(`/product/${product.key}`)}}>Single Product values</button> */}
                 <button onClick={()=>(AddingProductToCart(product))}>Add to cart</button>
-               
-                
             </div>
             )}
         
