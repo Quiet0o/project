@@ -5,7 +5,7 @@
     display: grid;
     grid-template-columns: auto auto auto auto;
 }
-.product-img{
+.product-img-all{
     width: 200px;
     height:200px
 }
@@ -59,4 +59,13 @@
 }
 input#wpisz:focus{
     outline-width: 0;
+}
+.product-img-all:hover{
+    cursor: pointer;
+}
+.product-img-single{
+    float: left;
+    width: 30%;
+    height: 40%;
+    margin-left:5%;
 }
