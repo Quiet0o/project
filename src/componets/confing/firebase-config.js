@@ -6,8 +6,14 @@ import {getAuth,GoogleAuthProvider} from "firebase/auth"
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBYfecFlYj8-y5N5lt5MstLPTsJ8jO2cWs",
   authDomain: "karina-projec.firebaseapp.com",
+<<<<<<< HEAD
   projectId:"karina-projec",
   storageBucket:"karina-projec.appspot.com",
+=======
+  databaseURL: "https://karina-projec-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "karina-projec",
+  storageBucket: "karina-projec.appspot.com",
+>>>>>>> 46ef4b1403bc6da827c72488f3cfb36588025232
   messagingSenderId: "840056781037",
   appId: "1:840056781037:web:e3b6502ef0891610aaf4e4",
   measurementId: "G-TRDRE1HY9C"
