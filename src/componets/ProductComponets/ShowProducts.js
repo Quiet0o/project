@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../confing/firebase-config";
-import { getDocs, collection,onSnapshot,query,orderBy,where} from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  where,
+  limit} from "firebase/firestore";
 import Product from "./Product";
 const ShowProducts = () => {
 
@@ -8,18 +14,26 @@ const ShowProducts = () => {
   const productInCart = [];
   let Cartsize = productInCart.length;
   let docRef=null;
-  const ShowAllProductsSortedByTime=(whatToSort,sortBy)=>{
-    docRef = query(collection(db, "Products"),orderBy(whatToSort,sortBy));
 
+  const ShowAllProductsSortedByTime=(whatToSort,sortBy,numberOfProductsOnPage)=>{
+    docRef = query(collection(db, "Products"),
+      orderBy(whatToSort,sortBy),
+      limit(numberOfProductsOnPage)
+    );
   }
-  const ShowAllProductsSortedByPrice=(whatToSort,sortBy,character,number)=>{
-    docRef = query(collection(db, "Products"),where(whatToSort,character,number),orderBy(whatToSort,sortBy));
 
+  const ShowAllProductsSortedByPrice=(whatToSort,sortBy,character,number,numberOfProductsOnPage)=>{
+    docRef = query(collection(db, "Products"),
+      where(whatToSort,character,number),
+      orderBy(whatToSort,sortBy), 
+      limit(numberOfProductsOnPage)
+    );
   }
+
   const ShowAllProducts = async () => {
     const getProducts = [];
 
-    const test = onSnapshot(docRef,(snapshot) => {
+    onSnapshot(docRef,(snapshot) => {
       snapshot.forEach((doc) => {
           getProducts.push({
             key: doc.id,
@@ -37,15 +51,13 @@ const ShowProducts = () => {
   };
 
   useEffect(() => {
-    // ShowAllProductsSortedByTime("timestamp","asc")
-    ShowAllProductsSortedByPrice("price","desc",">",100)
+    // ShowAllProductsSortedByTime("timestamp","desc",12)
+    ShowAllProductsSortedByPrice("price","desc","<",100,12)
     ShowAllProducts();
   }, []);
  
   return (
     <div className="all-product">
-      {/* <> */}
-      {/* <p >{Cartsize}</p> */}
       {products &&
         products.length > 0 &&
         products.map((product) => (
