@@ -1,4 +1,4 @@
-import React,{useState,useEffect}from 'react'
+import React,{useState,useRef}from 'react'
 import { db,storage } from '../confing/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
@@ -8,10 +8,12 @@ import {AiOutlineCloseCircle} from "react-icons/ai"
 const AddProducts=()=>{
     const  [file,setFile]= useState(null)
     const [show,setShow]=useState(false)
+    const [showProgress,setShowProgress]=useState(false)
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState("")
     const [description, setDescription] = useState("")
     let progressbar=0;
+    const refFile = useRef();
     const [progress ,setProgress] = useState(0)
 
     const HandleAddingProducts=(event)=>{
@@ -24,7 +26,9 @@ const AddProducts=()=>{
 
             uploadURL.on('state_changed', 
             (snapshot) => {
+                
                 progressbar = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                setShowProgress(!showProgress)
                 setProgress(progressbar)
                 console.log('Upload is ' + Math.floor(progress) + '% done');
             })
@@ -40,6 +44,10 @@ const AddProducts=()=>{
         }
     }
     
+    const ResetFileInput =()=>{
+        refFile.current.value ="";
+    }
+
     function CreateProduct (photoUrl){
         const formData = {
             title: title,
@@ -51,12 +59,14 @@ const AddProducts=()=>{
        console.log({formData});
        addDoc(collection(db,"Products"),formData).then(()=>{
             setShow(!show)
+            setShowProgress(!!showProgress)
+            setTitle("")
+            setDescription("")
+            setPrice("")
+            ResetFileInput()
+            setProgress(0)
        })
-
     }
-    // useEffect(()=>{
-    //     window.location.reload(false);
-    // },[show])
     return(
         <div className="Add-Product">
         <Alert show={show} variant="success">
@@ -103,6 +113,7 @@ const AddProducts=()=>{
                 />
                 <br/>
                 <input 
+                    ref={refFile}
                     id="photoUrl"
                     name="photoUrl"
                     type="file"
@@ -111,8 +122,9 @@ const AddProducts=()=>{
                     placeholder="dolacz zdj produktu"
                 />
                 <br />
+                <br />
                 <center>
-                    {file ?<ProgressBar variant="success" striped animated now={progress} style={{width:"10vw"}} /> :<></> }
+                    {showProgress ?<ProgressBar variant="success" striped animated now={progress} style={{width:"10vw"}} /> :<></> }
                 </center>
 
                 <br/>
