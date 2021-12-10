@@ -9,7 +9,7 @@ const AdminPage =()=>{
     }
     return (
         <div className="admin-page">
-           {visible? <></>: <Button onClick={ShowAddProduct}>Add Product</Button>}
+            {visible? <></>: <Button onClick={ShowAddProduct}>Add Product</Button>}
             {visible ? <AddProducts/> :<></>}
             <ShowProducts/>
         </div>

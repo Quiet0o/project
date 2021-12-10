@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../confing/firebase-config";
-import { getDocs, collection,onSnapshot,query,orderBy,where,limit, limitToLast,} from "firebase/firestore";
+import {collection,onSnapshot,query,orderBy,where,limit} from "firebase/firestore";
 import Product from "./Product";
 // import SideBarComponet from "../SideBarComponet/SideBarComponet";
 const ShowProducts = () => {
@@ -11,6 +11,7 @@ const ShowProducts = () => {
   let docRef=null;
   let docRefPrice=null;
   let priceMax=0  ;
+  let priceMin=0  ;
   
   const ShowAllProductsSortedByTime=(whatToSort,sortBy,numberOfProductsOnPage)=>{
     docRef = query(collection(db, "Products"),
@@ -18,22 +19,12 @@ const ShowProducts = () => {
       limit(numberOfProductsOnPage)
     );
   }
-
-  const GetMaxValue=(whatToSort,sortBy,numberOfProductsOnPage)=>{
+  const GetMinAndMaxValues=(whatToSort,sortBy,numberOfProductsOnPage,flag)=>{
     docRefPrice = query(collection(db, "Products"),
       orderBy(whatToSort,sortBy),
       limit(numberOfProductsOnPage)
     );
-    // ShowAllProducts();
-    GetPrice()
-
-  }
-  const GetMinValue=(whatToSort,sortBy,numberOfProductsOnPage)=>{
-    docRefPrice = query(collection(db, "Products"),
-      orderBy(whatToSort,sortBy),
-      limit(numberOfProductsOnPage)
-    );
-    GetPrice()
+    GetPrice(flag)
 
   }
   const ShowAllProductsSortedByPrice=(whatToSort,sortBy,character,number,numberOfProductsOnPage)=>{
@@ -55,26 +46,24 @@ const ShowProducts = () => {
           });
         setproducts([...getProducts]);
         })
-        // console.log(getProducts.forEach((doc)=>{doc.price}));
-      // getProducts.forEach((doc)=>{priceMax =  doc.price})
-      // console.log(priceMax);
+
     })
   };
 
-  const GetPrice = async () => {
+  const GetPrice = async (flag) => {
     const getProducts = [];
 
     onSnapshot(docRefPrice,(snapshot) => {
       snapshot.forEach((doc) => {
           getProducts.push({
-            key: doc.id,
             ...doc.data(),
           });
-        setproducts([...getProducts]);
         })
-        // console.log(getProducts.forEach((doc)=>{doc.price}));
-      getProducts.forEach((doc)=>{priceMax =  doc.price})
-      console.log(priceMax);
+      // let test = await getDoc(docRE)
+      if (flag === true) {getProducts.forEach((doc)=>{priceMax =  doc.price}) }
+      else{getProducts.forEach((doc)=>{priceMin =  doc.price}) }
+      console.log(getProducts)
+      console.log(priceMin,":", priceMax);
     })
 
   };
@@ -86,8 +75,8 @@ const ShowProducts = () => {
   useEffect(() => {
     ShowAllProductsSortedByTime("timestamp","asc",9999)
     // ShowAllProductsSortedByPrice("price","desc",">",100)
-    GetMinValue("price","asc",1)
-    // GetMaxValue("price","desc",1)
+    GetMinAndMaxValues("price","asc",1,false)
+    GetMinAndMaxValues("price","desc",1,true)
     ShowAllProducts();
   }, []);
  
