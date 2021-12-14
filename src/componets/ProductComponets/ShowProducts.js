@@ -8,6 +8,7 @@ import {
   where,
   limit} from "firebase/firestore";
 import Product from "./Product";
+import SideBarComponet from "../SideBarComponet/SideBarComponet"
 const ShowProducts = () => {
 
   const [products, setproducts] = useState([]);
@@ -51,13 +52,14 @@ const ShowProducts = () => {
   };
 
   useEffect(() => {
-    // ShowAllProductsSortedByTime("timestamp","desc",12)
-    ShowAllProductsSortedByPrice("price","desc","<",100,12)
+    ShowAllProductsSortedByTime("timestamp","desc",120)
+    // ShowAllProductsSortedByPrice("price","desc",">",100,12)
     ShowAllProducts();
   }, []);
  
   return (
     <div className="all-product">
+      <SideBarComponet/>
       {products &&
         products.length > 0 &&
         products.map((product) => (
