@@ -9,9 +9,11 @@ import {
   signOut,
   signInWithEmailAndPassword
 } from "firebase/auth";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../componets/confing/firebase-config";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
+import AdminPage from "../componets/AdminPage/AdminPage";
 
 const SingInComponent = () => {
   const [admins, setAdmins] = useState([]);
@@ -21,37 +23,37 @@ const SingInComponent = () => {
   
   const [loginEmail,setLoginEmail]=useState("")
   const [loginPassword,setLoginPassword]=useState("")
+
+  const [adminLog,setAdminLog]=useState(false)
   
   const [user,setUser]=useState({})
   onAuthStateChanged(auth,(currentUser)=>{
     setUser(currentUser) 
   })
-  let Admin = false;
 
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
+    let BreakException = {};
     const querySnapshot = await getDocs(collection(db, "Admins"));
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      // doc.data() is never undefined for query doc snapshots
-      // console.log(doc.id, " => ", doc.data());
+    try{
+
+      querySnapshot.forEach((doc) => {
       adminsCheck.push({ ...doc.data() });
-    
-      // console.log(doc.data().AdminEmail);
-      // console.log(auth.currentUser.email);
-      // if (user.email === doc.data().AdminEmail) {
-      //   console.log("success");
-      //   Admin = true;
-      // } else {
-      //   console.log("err");
-        
-      // }
+
+      if (user?.email === doc.data().AdminEmail) {
+        setAdminLog(!adminLog)
+        throw BreakException
+      }
+      return true;
     });
-    adminsCheck.filter(()=>{
-      return adminsChec
-    })
-    setAdmins(adminsCheck);
-    console.log(admins);
+      setAdmins(adminsCheck);
+      console.log(admins);
+    }
+    catch(err){
+      if (err!==BreakException) {
+        throw err
+      }
+    }
 
   };
   const Register= async ()=>{
@@ -64,6 +66,7 @@ const SingInComponent = () => {
     }
   }
   const Login= async ()=>{
+    console.log(adminLog)
     try{
       const user=   await signInWithEmailAndPassword(auth,loginEmail,loginPassword)
       console.log(user);
@@ -74,6 +77,7 @@ const SingInComponent = () => {
     }
   }
   const LogOut= async ()=>{
+    setAdminLog(!adminLog)
     await signOut(auth)
   }
   // const SingInWithGoogle = () => {
@@ -138,7 +142,7 @@ const SingInComponent = () => {
     <br/>
     <button onClick={()=>{LogOut()}}>Sign out</button>
     <p>{user?.email}</p>
-    {Admin ?<p>jestes admin</p>:<p>nie jestes admin</p>}
+    {adminLog?<AdminPage/>:<p>nie jestes admin</p>}
     </div>
   );
 };

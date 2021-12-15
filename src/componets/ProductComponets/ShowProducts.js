@@ -74,7 +74,7 @@ const ShowProducts = () => {
 
   useEffect(() => {
     ShowAllProductsSortedByTime("timestamp","asc",9999)
-    // ShowAllProductsSortedByPrice("price","desc",">",100)
+    // ShowAllProductsSortedByPrice("price","desc","<",100)
     GetMinAndMaxValues("price","asc",1,false)
     GetMinAndMaxValues("price","desc",1,true)
     ShowAllProducts();
