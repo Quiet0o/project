@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../confing/firebase-config";
 import {collection,onSnapshot,query,orderBy,where,limit} from "firebase/firestore";
 import Product from "./Product";
-// import SideBarComponet from "../SideBarComponet/SideBarComponet";
+
 const ShowProducts = () => {
   
   const [products, setproducts] = useState([]);
@@ -59,18 +59,17 @@ const ShowProducts = () => {
             ...doc.data(),
           });
         })
-      // let test = await getDoc(docRE)
-      if (flag === true) {getProducts.forEach((doc)=>{priceMax =  doc.price}) }
-      else{getProducts.forEach((doc)=>{priceMin =  doc.price}) }
+      if (flag === true) {
+        getProducts.forEach((doc)=>{priceMax =  doc.price}) 
+      }
+      else{
+        getProducts.forEach((doc)=>{priceMin =  doc.price}) 
+      }
       console.log(getProducts)
       console.log(priceMin,":", priceMax);
     })
 
   };
-  // const AddingProductToCart = (props) => {
-  //   productInCart.push(props);
-  //   console.log(productInCart);
-  // };
 
   useEffect(() => {
     ShowAllProductsSortedByTime("timestamp","asc",9999)
@@ -82,15 +81,12 @@ const ShowProducts = () => {
  
   return (
     <div className="all-product">
-      {/* <SideBarComponet/> */}
       {products &&
         products.length > 0 &&
         products.map((product) => (
           <div className="Single-product">
             <Product props={product} key={product.id} descExits={false} />
-            {/* <button onClick={() => AddingProductToCart(product)}>
-              Add to cart
-            </button> */}
+          
           </div>
         ))}
     </div>

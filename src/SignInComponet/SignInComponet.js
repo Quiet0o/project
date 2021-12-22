@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  GithubAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../componets/confing/firebase-config";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import AdminPage from "../componets/AdminPage/AdminPage";
@@ -18,68 +13,50 @@ import AdminPage from "../componets/AdminPage/AdminPage";
 const SingInComponent = () => {
   const [admins, setAdmins] = useState([]);
 
-  const [registerEmail,setRegisterEmail]=useState("")
-  const [registerPassword,setRegisterPassword]=useState("")
-  
-  const [loginEmail,setLoginEmail]=useState("")
-  const [loginPassword,setLoginPassword]=useState("")
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
-  const [adminLog,setAdminLog]=useState(false)
-  
-  const [user,setUser]=useState({})
-  onAuthStateChanged(auth,(currentUser)=>{
-    setUser(currentUser) 
-  })
+  const [user, setUser] = useState({});
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
 
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
     let BreakException = {};
     const querySnapshot = await getDocs(collection(db, "Admins"));
-    try{
-
+    try {
       querySnapshot.forEach((doc) => {
-      adminsCheck.push({ ...doc.data() });
+        adminsCheck.push({ ...doc.data() });
 
-      if (user?.email === doc.data().AdminEmail) {
-        setAdminLog(!adminLog)
-        throw BreakException
-      }
-      return true;
-    });
+        if (user?.email === doc.data().AdminEmail) {
+          throw BreakException;
+        }
+        return true;
+      });
       setAdmins(adminsCheck);
       console.log(admins);
-    }
-    catch(err){
-      if (err!==BreakException) {
-        throw err
+    } catch (err) {
+      if (err !== BreakException) {
+        throw err;
       }
     }
-
   };
-  const Register= async ()=>{
-    try{
-      const user=   await createUserWithEmailAndPassword(auth,registerEmail,registerPassword)
+
+  const Login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
       console.log(user);
-    }
-    catch(err){
+      CheckoutAdmin();
+    } catch (err) {
       console.log(err.message);
     }
-  }
-  const Login= async ()=>{
-    console.log(adminLog)
-    try{
-      const user=   await signInWithEmailAndPassword(auth,loginEmail,loginPassword)
-      console.log(user);
-      CheckoutAdmin()
-    }
-    catch(err){
-      console.log(err.message);
-    }
-  }
-  const LogOut= async ()=>{
-    setAdminLog(!adminLog)
-    await signOut(auth)
-  }
+  };
+ 
   // const SingInWithGoogle = () => {
   //   signInWithPopup(auth, new GoogleAuthProvider())
   //     .then(() => {
@@ -120,31 +97,45 @@ const SingInComponent = () => {
 
   return (
     <div className="ssds">
-      {/* {user?<p>dasda</p>:<div>
-      <button onClick={SingInWithGoogle}>Sing in with Google account</button>
-      <button onClick={SingInWithFacebook}>
-        Sing in with FacebookAuthProvider account
-      </button>
-      <button onClick={SingInWithGithub}>Sing in with Github account</button>
-    </div>} */}
-    <h1>Sign in</h1>
-   
-      <input type="email" placeholder="email..." onChange={(e)=>{setRegisterEmail(e.target.value)}}/><br/>
-      <input type="text" placeholder="email..."onChange={(e)=>{setRegisterPassword(e.target.value)}}/><br/>
-      <button placeholder="wyslij" value="dupa" onClick={()=>{Register()}}>Register</button>
+      {user ? (
+        <></>
+      ) : (
+        <div className="dupa">
+          <h1>Login in </h1>
 
-    <h1>Login in  </h1>
-    
-      <input type="email" placeholder="email..." onChange={(e)=>{setLoginEmail(e.target.value)}}/><br/>
-      <input type="text" placeholder="email..."onChange={(e)=>{setLoginPassword(e.target.value)}}/><br/>
-      <button placeholder="wyslij" value="dupa" onClick={()=>{Login()}}>Login </button>
-    <br/>
-    <br/>
-    <button onClick={()=>{LogOut()}}>Sign out</button>
-    <p>{user?.email}</p>
-    {adminLog?<AdminPage/>:<p>nie jestes admin</p>}
+          <input
+            type="email"
+            placeholder="email..."
+            onChange={(e) => {
+              setLoginEmail(e.target.value);
+            }}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="email..."
+            onChange={(e) => {
+              setLoginPassword(e.target.value);
+            }}
+          />
+          <br />
+          <button
+            placeholder="wyslij"
+            value="dupa"
+            onClick={() => {
+              Login();
+            }}
+          >
+            Login{" "}
+          </button>
+          <br />
+          <br />
+         
+        </div>
+      )}
+      {user ? <AdminPage /> : <p></p>}
     </div>
   );
 };
-export let user
+export let user;
 export default SingInComponent;
