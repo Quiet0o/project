@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -77,45 +75,6 @@ const SingInComponent = () => {
       console.log(err.message);
     }
   };
-
-  // const SingInWithGoogle = () => {
-  //   signInWithPopup(auth, new GoogleAuthProvider())
-  //     .then(() => {
-  //       CheckoutAdmin();
-  //       console.log(user)
-  //     })
-  //     .catch(err => {
-  //       alert(err.message)
-  //     });
-  // };
-
-  // const SingInWithFacebook = () => {
-  //   const provider = new FacebookAuthProvider();
-  //   provider.setCustomParameters({
-  //     display: "popup",
-  //   });
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       const credential = FacebookAuthProvider.credentialFromResult(result);
-  //       const accessToken = credential.accessToken;
-  //       // console.log(accessToken);
-  //       CheckoutAdmin();
-  //     })
-  //     .catch(err => {
-  //       alert(err.message)
-  //     });;
-  // };
-
-  // const SingInWithGithub = () => {
-  //   signInWithPopup(auth, new GithubAuthProvider())
-  //     .then(() => {
-  //       CheckoutAdmin();
-  //     })
-  //     .catch(() => {
-  //       console.log("account with this email exsits");
-  //     });
-  // };
-
   return (
     <div className="ssds">
       {user ? (

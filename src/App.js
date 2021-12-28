@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SingleProduct from "./componets/ProductComponets/SingleProduct";
 import LandingPage from "../src/componets/LandingPage/LandingPage";
 import NavBarComponet from "./componets/NavBarComponet/NavBarComponet";
-import CheckUserLogin from "./componets/CheckUSerLogin/CheckUserLogin";
+import CheckAdminLogin from "./componets/CheckAdminLogin/CheckAdminLogin";
 function App() {
   return (
     <div className="App">
@@ -13,7 +13,7 @@ function App() {
         <NavBarComponet />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/admin" element={<CheckUserLogin />} />
+          <Route path="/admin" element={< CheckAdminLogin/>} />
           <Route path="/product/:ProductId" element={<SingleProduct />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
