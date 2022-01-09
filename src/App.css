@@ -5,11 +5,12 @@
 }
 .all-product {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns:  auto auto auto;
+    /* width: 400px; */
 }
 .product-img-all{
-    width: 200px;
-    height:200px
+    width: 500px;
+    height:400px;
 }
 .Single-product{
     margin: 20px;
@@ -25,36 +26,43 @@
     height: 10vh;
 }
 #logoimg{
-    height: 10vh;
-    width: 12vh;
+    height: 6vh;
+    width: 6vh;
     margin-top: 0.5vh;
 }
 #search{
-    width: 12vw;
-    height: 5vh;
+    width: 10vw;
+    height: 3vh;
     float: left;
     border-radius:30px ;
     background-color: rgba(206, 204, 204, 0.849);
     margin-left: 60vw;
-    margin-top: 2.5vh;
 
 }
 #wyszukaj{
     float: left;
-    width: 5vh;
-    height: 5vh;
+    width: 3vh;
+    height: 3vh;
     border: 0;
     border-radius: 30px;
     background-color: rgba(206, 204, 204, 0);
+    margin-top: -5px;
+    margin-left: -5px;
+    margin-right: 1vw;
+    color: black;
+ 
+}
+.btn-outline-success:active{
+    border: none;
 }
 #wpisz{
     float: left;
-    width: 8vw;
-    height: 5vh;
+    width: 7vw;
+    height: 3vh;
     padding: 0;
     border: 0;
     background-color: rgba(206, 204, 204, 0);
-    font-size: 20px;
+    font-size: 15px;
 }
 #filtr{
 
@@ -84,4 +92,19 @@ footer{
 .admin-close-alert-icon{
     float: right;
     font-size:1.5em;
+}
+.navbar{
+    border-bottom:1px solid black ;
+}
+.product-title{
+    text-align: left;
+}
+.product-price{
+    text-align: left;
+}
+form{
+    text-align: left;
+}
+form{
+    font-size: 18px;
 }

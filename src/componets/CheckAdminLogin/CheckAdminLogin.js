@@ -1,5 +1,5 @@
 import React from 'react'
-import SingInComponent, { user } from '../../SignInComponet/SignInComponet';
+import SingInComponent, { user } from '../SignInComponet/SignInComponet';
 import AdminPage from '../AdminPage/AdminPage';
 import { auth } from '../confing/firebase-config';
 const CheckAdminLogin=()=>{
