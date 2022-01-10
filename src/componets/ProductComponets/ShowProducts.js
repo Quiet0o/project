@@ -85,7 +85,7 @@ const ShowProducts = () => {
         products.length > 0 &&
         products.map((product) => (
           <div className="Single-product">
-            <Product props={product} key={product.id} descExits={false} />
+            <Product props={product} key={product.id} descExits={false}/>
           
           </div>
         ))}
