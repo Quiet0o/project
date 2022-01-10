@@ -24,7 +24,7 @@ function App() {
       </BrowserRouter>
 
       <footer>
-        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻
+        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻 CHujejdsfjkdsf
       </footer>
     </div>
   );
