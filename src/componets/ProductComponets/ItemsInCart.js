@@ -3,25 +3,40 @@ import { CartContext } from '../../Context/CartContext';
 import { useContext } from "react";
 
 const ItemsInCart =() =>{
-    const [Todos,setTodos] = useState([]);
-
+    const [ItemsInCart,setItemsInCart] = useState([]);
     const {CartItems} = useContext(CartContext)
-  
+    const {setCartItems} = useContext(CartContext)
+    const [NumberOfItemsInCart, setNumberOfItemsInCart] = useState([])
     useEffect(() => {
+        setNumberOfItemsInCart(CartItems)
         const getLocalStorage = () => {
-        if(localStorage.getItem('cart') === null){
-          localStorage.setItem('cart',JSON.stringify([]));
-        }else{
+          if(localStorage.getItem('cart') === null){
+            localStorage.setItem('cart',JSON.stringify([]));
+          }else{
           let todoFromLocal =  JSON.parse(localStorage.getItem("cart"));
-          setTodos(todoFromLocal);
-        }
-      };
+          // console.log(todoFromLocal);
+          setNumberOfItemsInCart([...todoFromLocal]);
+          // dupa = todoFromLocal\
+          }
+        };
         getLocalStorage()
+        console.log(NumberOfItemsInCart);
     }, [])
+
+    const CartItemsRender=()=>{
+      NumberOfItemsInCart.map((item)=>{
+        return(
+          <div className="dupa">
+            <h1>{item.title}</h1>
+          </div>
+        )
+      })
+    }
+
     return(
-        <h1>{Todos.map(todos=>{
-          console.log(todos.key);
-        })}</h1>
+       <div className="cart-page-main">
+          
+       </div>
     )
 }
 export default ItemsInCart
