@@ -5,10 +5,11 @@ import Product from "./Product";
 import ErrorPage from "../ErrorPage";
 import { useParams } from "react-router";
 
-const SingleProduct = (AddProductToCart) => {
+const SingleProduct = () => {
   const { ProductId } = useParams();
 
   const [exists, setExists] = useState(true);
+  const [cart, setCart] = useState([])
 
   const [products, setProducts] = useState([]);
 
@@ -36,7 +37,7 @@ const SingleProduct = (AddProductToCart) => {
       return products.map((product) => {
         return (
             <div className="product-single-page-main">
-                <Product props={product} key={product.id} descExits={true}  AddProductToCart={AddProductToCart}/>
+                <Product props={product} key={product.id} descExits={true}  />
             </div>
         );
       });

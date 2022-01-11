@@ -1,11 +1,17 @@
 import React from "react";
+import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from "../../Context/CartContext";
 
 const Product =({props,descExits})=>{
-    const Something= [props] 
     const navigate = useNavigate();
+    const {setCartItems} = useContext(CartContext)
+    const {CartItems} = useContext(CartContext)
     const single = descExits ? "single": "all";
+    const saveToLocalStorage = () => {
+      localStorage.setItem('cart',JSON.stringify(CartItems));
+    };
     return(
        <div key={props.id} className={`product-${single}`}>
              <img 
@@ -16,7 +22,9 @@ const Product =({props,descExits})=>{
              />
            <p className={`product-title-${single}`}> {props.title}</p> 
            {descExits ? <p className={`product-description-${single}`}> description:  {props.description}</p>:<></>}
-           {descExits ? <Button onClick={(e)=>{console.log(Something)}}> Add Product to cart</Button> :<></>}
+            {/* {descExits ? <p className={`product-description-${single}`}> description:  {props.description}</p>:<></>} */}
+           {descExits ? <Button onClick={(e)=>{setCartItems([props]);saveToLocalStorage() }}> Add Product to cart</Button> :<></>}
+           
            <p className={`product-price-${single}`}>{props.price} zł</p>
            
         </div>

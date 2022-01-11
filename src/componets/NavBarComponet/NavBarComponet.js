@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Mainlogo from "../../img/logo.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import {Nav, Navbar, NavDropdown, MenuItem,Container,Form ,  Tabs, ButtonToolbar, Button, Table, ButtonGroup, Row, Col, Grid, Panel, FormGroup, FormControl} from 'react-bootstrap';
+import {Nav, Navbar, NavDropdown, MenuItem,Container,Form ,  Tabs, ButtonToolbar, Button, Table, ButtonGroup, Row, Col, Grid, Panel, FormGroup, FormControl, Badge} from 'react-bootstrap';
 const NavBarComponet = () => {
 
   
@@ -35,8 +35,9 @@ const NavBarComponet = () => {
       </Form>
       </Nav>
       
-      <Nav.Link href="shoppingCart">
+      <Nav.Link href="/shoppingCart">
           <AiOutlineShoppingCart className="shop-icon" style={{ height: "35px", fontSize: "1.5em" }} />
+           <Badge pill>1</Badge>
         </Nav.Link>
     </Navbar.Collapse>
   </Container>
