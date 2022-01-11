@@ -27,7 +27,7 @@ function App() {
         </BrowserRouter>
       </CartContext.Provider>
       <footer>
-        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻
+        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻 CHujejdsfjkdsf
       </footer>
     </div>
   );
