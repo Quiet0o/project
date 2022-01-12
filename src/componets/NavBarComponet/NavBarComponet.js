@@ -10,25 +10,10 @@ import { CartContext } from "../../Context/CartContext";
 
 const NavBarComponet = () => {
 
-  const {CartItems, setCartItems} = useContext(CartContext)
-  const [NumberOfItemsInCart, setNumberOfItemsInCart] = useState([])
-  useEffect(() => {
-      setNumberOfItemsInCart(CartItems)
-    //   const getLocalStorage = () => {
-    //     if(localStorage.getItem('cart') === null){
-    //       localStorage.setItem('cart',JSON.stringify([]));
-    //     }else{
-    //     let todoFromLocal =  JSON.parse(localStorage.getItem("cart"));
-    //     // console.log(todoFromLocal);
-    //     setNumberOfItemsInCart([...todoFromLocal]);
-    //     // dupa = todoFromLocal\
-    //     }
-    //   };
-    //   getLocalStorage()
-      // console.log(NumberOfItemsInCart);
-  }, [CartItems])
+  const {CartItems, } = useContext(CartContext)
+
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="sticky-top">
   <Container fluid>
     <Navbar.Brand href="/"><img id="logoimg" src={Mainlogo} /></Navbar.Brand>
     <Navbar.Toggle aria-controls="navbarScroll" />
@@ -57,7 +42,7 @@ const NavBarComponet = () => {
       
       <Nav.Link href="/shoppingCart">
           <AiOutlineShoppingCart className="shop-icon" style={{ height: "35px", fontSize: "1.5em" }} />
-           <Badge pill>{NumberOfItemsInCart.length}</Badge>
+           { CartItems.length > 0?<Badge pill>{CartItems.length}</Badge>:<></>}
         </Nav.Link>
     </Navbar.Collapse>
   </Container>

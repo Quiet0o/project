@@ -5,7 +5,7 @@ import SingleProduct from "./componets/ProductComponets/SingleProduct";
 import LandingPage from "../src/componets/LandingPage/LandingPage";
 import NavBarComponet from "./componets/NavBarComponet/NavBarComponet";
 import CheckAdminLogin from "./componets/CheckAdminLogin/CheckAdminLogin";
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import ItemsInCart from "./componets/ProductComponets/ItemsInCart";
 import { CartContext } from "./Context/CartContext";
 
@@ -13,7 +13,7 @@ function App() {
 
   const [CartItems, setCartItems] = useState([]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("cart") !== null) {
       setCartItems(JSON.parse(localStorage.getItem("cart")));
     }    

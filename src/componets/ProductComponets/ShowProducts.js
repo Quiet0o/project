@@ -37,6 +37,7 @@ const ShowProducts = () => {
 
   const ShowAllProducts = async () => {
     const getProducts = [];
+    // const docRef= query(collection(db, "Products"));
 
     onSnapshot(docRef,(snapshot) => {
       snapshot.forEach((doc) => {
@@ -72,8 +73,8 @@ const ShowProducts = () => {
   };
 
   useEffect(() => {
-    // ShowAllProductsSortedByTime("timestamp","asc",9999)
-    ShowAllProductsSortedByPrice("price","asc",">",0 )
+    ShowAllProductsSortedByTime("timestamp","asc",9999)
+    // ShowAllProductsSortedByPrice("price","desc",">",110 )
     GetMinAndMaxValues("price","asc",1,false)
     GetMinAndMaxValues("price","desc",1,true)
     ShowAllProducts();
