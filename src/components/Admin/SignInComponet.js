@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
-import { auth, db } from "../confing/firebase-config";
+import { auth, db } from "../config/firebase-config";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import AdminPage from "./AdminPage";
 

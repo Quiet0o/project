@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import { CartContext } from '../../../Context/CartContext'
 const CartItem = ({props}) =>{
-    const {CartItems, setCartItems} = useContext(CartContext)
+    const {CartItems} = useContext(CartContext)
     const RemoveDataFromLocalStorage=(index)=>{
         const data = CartItems;
         

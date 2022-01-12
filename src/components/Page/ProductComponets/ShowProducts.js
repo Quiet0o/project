@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../confing/firebase-config";
+import { db } from "../../config/firebase-config";
 import {collection,onSnapshot,query,orderBy,where,limit} from "firebase/firestore";
 import Product from "./Product";
 
 const ShowProducts = () => {
   
   const [products, setproducts] = useState([]);
-  const productInCart = [];
-  let Cartsize = productInCart.length;
   let docRef= query(collection(db, "Products"));;
   let docRefPrice=null;
   let priceMax=0  ;

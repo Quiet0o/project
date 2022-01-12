@@ -1,5 +1,5 @@
 import React,{useState,useRef}from 'react'
-import { db,storage } from '../../confing/firebase-config';
+import { db,storage } from '../../config/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
 import { ProgressBar,Alert } from 'react-bootstrap';
@@ -15,6 +15,9 @@ const AddProducts=()=>{
     let progressbar=0;
     const refFile = useRef();
     const [progress ,setProgress] = useState(0)
+    const [quantity ,setQuantity] = useState(0)
+    const [brand ,setBrand] = useState("")
+    const [type ,setType] = useState("")
 
     const HandleAddingProducts=(event)=>{
         event.preventDefault();
@@ -54,6 +57,9 @@ const AddProducts=()=>{
             price: parseFloat(price),
             description: description,
             photoUrl: photoUrl,
+            quantity:parseInt(quantity),
+            brand: brand,
+            type: type,
             timestamp:Timestamp.now()
         }
        console.log({formData});
@@ -122,7 +128,21 @@ const AddProducts=()=>{
                     placeholder="dolacz zdj produktu"
                 />
                 <br />
+                
+                <input 
+                    value={quantity}
+                    onChange={(e)=>setQuantity(e.target.value)}
+                    type="number" 
+                    name="quantity"
+                    id="quantity"
+                    placeholder="podaj opis produktu"
+                    required
+                />
+                <br/>
+                <label for="brand">Choose a brand:</label>
+        
                 <br />
+                
                 <center>
                     {showProgress ?<ProgressBar variant="success" striped animated now={progress} style={{width:"10vw"}} /> :<></> }
                 </center>

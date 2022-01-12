@@ -1,12 +1,12 @@
 import "./App.css";
-import ErrorPage from "./componets/Page/ErrorPage";
+import ErrorPage from "./components/Page/ErrorPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import SingleProduct from "./componets/Page/ProductComponets/SingleProduct";
-import LandingPage from "./componets/Page/LandingPage/LandingPage";
-import NavBarComponet from "./componets/Page/NavBarComponet/NavBarComponet";
-import CheckAdminLogin from "./componets/Admin/CheckAdminLogin";
+import SingleProduct from "./components/Page/ProductComponets/SingleProduct";
+import LandingPage from "./components/Page/LandingPage/LandingPage";
+import NavBarComponet from "./components/Page/NavBarComponet/NavBarComponet";
+import CheckAdminLogin from "./components/Admin/CheckAdminLogin";
 import { useState, useEffect } from "react";
-import ItemsInCart from "./componets/Page/ProductComponets/ItemsInCart";
+import ItemsInCart from "./components/Page/ProductComponets/ItemsInCart";
 import { CartContext } from "./Context/CartContext";
 
 function App() {

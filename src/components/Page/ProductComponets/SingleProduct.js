@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../confing/firebase-config";
+import { db } from "../../config/firebase-config";
 import Product from "./Product";
 import ErrorPage from "../ErrorPage";
 import { useParams } from "react-router";

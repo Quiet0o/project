@@ -3,7 +3,7 @@ import { CartContext } from "../../../Context/CartContext";
 import { useContext } from "react";
 import CartItem from "./CartItem";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../confing/firebase-config";
+import { db } from "../../config/firebase-config";
 
 const ItemsInCart = () => {
   const [ProductsInCart, setProductsInCart] = useState([]);
