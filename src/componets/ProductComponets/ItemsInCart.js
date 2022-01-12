@@ -12,10 +12,10 @@ const ItemsInCart =() =>{
         const getLocalStorage = () => {
           if(localStorage.getItem('cart') === null){
             localStorage.setItem('cart',JSON.stringify([]));
-          }else{
-          let todoFromLocal =  JSON.parse(localStorage.getItem("cart"));
+          } else {
+            let todoFromLocal =  JSON.parse(localStorage.getItem("cart"));
           // console.log(todoFromLocal);
-          setNumberOfItemsInCart([...todoFromLocal]);
+            setNumberOfItemsInCart([...todoFromLocal]);
           // dupa = todoFromLocal\
           }
         };
