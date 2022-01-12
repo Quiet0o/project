@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import ShowProducts from "../ProductComponets/ShowProducts"
 import AddProducts from "../ProductComponets/AddProducts"
 import {Button} from 'react-bootstrap'
-import { user } from '../SignInComponet/SignInComponet'
-import CreareNewAdmin from '../CreateNewAdmin/CreateNewAdmin';
+import { user } from './SignInComponet'
+import CreareNewAdmin from './CreateNewAdmin';
 const AdminPage =()=>{
     const [visible,setVisible] = useState(user)
     const [visibleAdmin,setVisibleAdmin] = useState(user)
+    const [visibleBrandSite,setVisibleBrandSite] = useState(user)
 
     
     const ShowAddProduct =()=>{
@@ -15,13 +15,17 @@ const AdminPage =()=>{
     const ShowCreateAdmins =()=>{
         setVisibleAdmin(!visibleAdmin)
     }
+    const ShowCreateNewBrand =()=>{
+        setVisibleBrandSite(!visibleBrandSite)
+    }
     return (
         <div className="admin-page">
             {visible? <></>: <Button onClick={ShowAddProduct}>Add Product</Button>}
-            {visible? <></>: <Button onClick={ShowCreateAdmins}>Create  new Admin</Button>}
-            {visible ? <AddProducts/> :<></>}
-            {visibleAdmin?<CreareNewAdmin/>:<></>}
-            <ShowProducts/>
+            {visibleAdmin? <></>: <Button onClick={ShowCreateAdmins}>Create  new Admin</Button>}
+            {visibleBrandSite? <></>: <Button onClick={ShowCreateNewBrand}>Add new Brand</Button>}
+            {visibleAdmin ? <AddProducts/> :<></>}
+            {visible?<CreareNewAdmin/>:<></>}
+            {/* <ShowProducts/> */}
         </div>
     )
 }

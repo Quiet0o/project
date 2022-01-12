@@ -3,7 +3,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth, db } from "../confing/firebase-config";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
-import AdminPage from "../AdminPage/AdminPage";
+import AdminPage from "./AdminPage";
 
 const SingInComponent = () => {
   const [admin, setAdmin] = useState(false);
@@ -73,7 +73,7 @@ const SingInComponent = () => {
           break;
         case "auth/wrong-password":
           alert(
-            "The provided value for the password user property is invalid2!"
+            "The provided value for the password user property is wrong"
           );
           break;
         case "auth/too-many-requests":
