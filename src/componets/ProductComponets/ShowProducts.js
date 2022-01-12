@@ -8,7 +8,7 @@ const ShowProducts = () => {
   const [products, setproducts] = useState([]);
   const productInCart = [];
   let Cartsize = productInCart.length;
-  let docRef=null;
+  let docRef= query(collection(db, "Products"));;
   let docRefPrice=null;
   let priceMax=0  ;
   let priceMin=0  ;
@@ -73,8 +73,8 @@ const ShowProducts = () => {
   };
 
   useEffect(() => {
-    ShowAllProductsSortedByTime("timestamp","asc",9999)
-    // ShowAllProductsSortedByPrice("price","desc",">",110 )
+    // ShowAllProductsSortedByTime("timestamp","asc",9999)
+    ShowAllProductsSortedByPrice("price","desc",">",110 )
     GetMinAndMaxValues("price","asc",1,false)
     GetMinAndMaxValues("price","desc",1,true)
     ShowAllProducts();

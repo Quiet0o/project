@@ -1,8 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { CartContext } from '../../Context/CartContext'
 const CartItem = ({props}) =>{
     const {CartItems, setCartItems} = useContext(CartContext)
+    const RemoveDataFromLocalStorage=(index)=>{
+        const data = CartItems;
+        
+        console.log(CartItems.indexOf(index));
+        data.splice(index,1)
+        localStorage.setItem('cart', JSON.stringify(data));
+        window.location.reload(false);
+    }
     return (
         <div className="cart-single-product">
             <h1 className="cart-single-product-title">{props.title}</h1>
@@ -13,7 +21,7 @@ const CartItem = ({props}) =>{
                
             />
              <p className={`product-price-cart`}>{props.price} zł</p>
-             <Button onClick={(e)=>{console.log("usun product")}}>dadada</Button>
+             <Button onClick={(e)=>{console.log(CartItems);console.log(props.key);RemoveDataFromLocalStorage(props.key)}}>dadada</Button>
         </div>
     )
 }
