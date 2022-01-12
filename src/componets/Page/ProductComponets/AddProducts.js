@@ -1,5 +1,5 @@
 import React,{useState,useRef}from 'react'
-import { db,storage } from '../confing/firebase-config';
+import { db,storage } from '../../confing/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
 import { ProgressBar,Alert } from 'react-bootstrap';

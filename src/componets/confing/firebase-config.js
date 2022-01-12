@@ -3,6 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import {getStorage } from "firebase/storage";
 import {getAuth,GoogleAuthProvider} from "firebase/auth"
 import { getAnalytics } from "firebase/analytics";
+
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBYfecFlYj8-y5N5lt5MstLPTsJ8jO2cWs",
   authDomain: "karina-projec.firebaseapp.com",

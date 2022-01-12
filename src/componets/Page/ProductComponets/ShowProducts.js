@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../confing/firebase-config";
+import { db } from "../../confing/firebase-config";
 import {collection,onSnapshot,query,orderBy,where,limit} from "firebase/firestore";
 import Product from "./Product";
 

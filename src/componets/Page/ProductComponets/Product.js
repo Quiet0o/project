@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useContext } from "react";
-import { CartContext } from "../../Context/CartContext";
+import { CartContext } from "../../../Context/CartContext";
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 

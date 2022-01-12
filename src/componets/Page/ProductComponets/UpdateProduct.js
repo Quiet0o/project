@@ -1,7 +1,7 @@
 import { doc, updateDoc } from '@firebase/firestore';
 import React from 'react'
 import { useParams } from "react-router";
-import { db } from '../confing/firebase-config';
+import { db } from '../../confing/firebase-config';
 
 const UpdateProduct =()=>{
 

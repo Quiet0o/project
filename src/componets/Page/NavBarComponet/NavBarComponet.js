@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Mainlogo from "../../img/logo.svg";
+import Mainlogo from "../../../img/logo.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import {Nav, Navbar, NavDropdown, MenuItem,Container,Form ,  Tabs, ButtonToolbar, Button, Table, ButtonGroup, Row, Col, Grid, Panel, FormGroup, FormControl, Badge} from 'react-bootstrap';
 
 import { useContext } from "react";
-import { CartContext } from "../../Context/CartContext";
+import { CartContext } from "../../../Context/CartContext";
 
 const NavBarComponet = () => {
 

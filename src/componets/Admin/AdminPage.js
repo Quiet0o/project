@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AddProducts from "../ProductComponets/AddProducts"
+import AddProducts from "../Page/ProductComponets/AddProducts"
 import {Button} from 'react-bootstrap'
 import { user } from './SignInComponet'
 import CreareNewAdmin from './CreateNewAdmin';
