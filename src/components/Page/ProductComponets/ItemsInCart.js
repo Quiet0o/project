@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import { useContext } from "react";
 import CartItem from "./CartItem";
@@ -7,43 +7,49 @@ import { db } from "../../config/firebase-config";
 
 const ItemsInCart = () => {
   const [ProductsInCart, setProductsInCart] = useState([]);
-  const [ItemsInCartPrice, setItemsInCartPrice] = useState(0);
+  const [cyce, setCyce] = useState(0);
+  const ref = useRef(cyce)
   const { CartItems } = useContext(CartContext);
+  var count = {};
   let liczba=0;
+  let i=0;
+  let quantity=0;
   useEffect(() => {
-    CartItems.map((cartItem) => {
-      const dupa = async () => {
+    CartItems.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+
+    Object.keys(count).map((cartItem) => {
+     
+      quantity = Object.values(count)[i];
+
+      const dupa = async (quantity) => {
+      
         const getSingleProduct = [];
 
         onSnapshot(doc(db, "Products", cartItem), (doc) => {
-          // console.log("Current data: ", doc.data());
           getSingleProduct.push({
             key: doc.id,
+            quantity:quantity,
             ...doc.data(),
           });
+          getSingleProduct.map((test)=>{
 
+            liczba+=test.price*test.quantity
+            ref.current = liczba;
+
+          });
           setProductsInCart((prev) => [...prev, ...getSingleProduct]);
-          // setItemsInCartPrice(ItemsInCartPrice+ItemsInCartPrice.price)
         });
+    
       };
-      dupa();
-      
+      dupa(quantity)
+      i++;
     });
-
   }, [CartItems]);
-  useEffect(() => {
-    console.log("ddd");
-    console.log(CartItems);
-    CartItems.map((item) => {
-      console.log(item);
-      setItemsInCartPrice(ItemsInCartPrice+item.price);
-    })
-    console.log(ProductsInCart);
-  },[])
 
   const CartItemsElement = () => {
- 
+      
     return ProductsInCart.map((item) => {
+
       return (
         <div className="cart-single-product-main">
           <CartItem props={item} />
@@ -56,7 +62,7 @@ const ItemsInCart = () => {
     {CartItems.length> 0? 
       <div className="cart-no-empty">
         <CartItemsElement />
-        <h1>Aktualna cena w koszyku: {ItemsInCartPrice}</h1>
+        <h1>Aktualna cena w koszyku: {ref.current} zł</h1>
         </div>
       :
       <h1>koszyk jest pusty</h1>}

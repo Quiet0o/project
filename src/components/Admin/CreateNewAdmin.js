@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { auth, db } from "../config/firebase-config";
-const CreareNewAdmin = () => {
+const CreateNewAdmin = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
@@ -14,7 +14,7 @@ const CreareNewAdmin = () => {
         registerPassword
       );
       console.log(user);
-      docRef = await addDoc(collection(db, "Admins"), {
+      await addDoc(collection(db, "Admins"), {
         AdminEmail: registerEmail,
       });
     } catch (err) {
@@ -64,4 +64,4 @@ const CreareNewAdmin = () => {
     </div>
   );
 };
-export default CreareNewAdmin;
+export default CreateNewAdmin;

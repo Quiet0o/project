@@ -9,7 +9,7 @@ const SingleProduct = () => {
   const { ProductId } = useParams();
 
   const [exists, setExists] = useState(true);
-  const [cart, setCart] = useState([])
+  
 
   const [products, setProducts] = useState([]);
 

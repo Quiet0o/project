@@ -12,9 +12,9 @@ const NavBarComponet = () => {
   const {CartItems, } = useContext(CartContext)
 
   return (
-    <Navbar bg="light" expand="lg" className="sticky-top">
+    <Navbar bg="light" expand="lg" className="sticky-top" style={{zIndex:100}}>
   <Container fluid>
-    <Navbar.Brand href="/"><img id="logoimg" src={Mainlogo} /></Navbar.Brand>
+    <Navbar.Brand href="/"><img id="logoimg" src={Mainlogo} alt="logo"/></Navbar.Brand>
     <Navbar.Toggle aria-controls="navbarScroll" />
     <Navbar.Collapse id="navbarScroll">
       <Nav

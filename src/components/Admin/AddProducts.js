@@ -1,5 +1,5 @@
 import React,{useState,useRef}from 'react'
-import { db,storage } from '../../config/firebase-config';
+import { db,storage } from '../config/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
 import { ProgressBar,Alert } from 'react-bootstrap';
@@ -34,6 +34,7 @@ const AddProducts=()=>{
                 setShowProgress(!showProgress)
                 setProgress(progressbar)
                 console.log('Upload is ' + Math.floor(progress) + '% done');
+                
             })
 
             uploadBytes(storageRef,file).then((snapshot)=>{

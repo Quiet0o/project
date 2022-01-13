@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <CartContext.Provider value={{ CartItems, setCartItems }}>
-        <BrowserRouter>
+        <BrowserRouter>        
           <NavBarComponet />
           <Routes>
             <Route path="/" element={<LandingPage />} />

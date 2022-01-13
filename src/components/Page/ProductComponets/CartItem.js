@@ -7,9 +7,9 @@ const CartItem = ({props}) =>{
         const data = CartItems;
         
         console.log(CartItems.indexOf(index));
-        data.splice(index,1)
+        // data.splice(1,CartItems.indexOf(index))
         localStorage.setItem('cart', JSON.stringify(data));
-        window.location.reload(false);
+        // window.location.reload(false);
     }
     return (
         <div className="cart-single-product">
@@ -21,7 +21,8 @@ const CartItem = ({props}) =>{
                
             />
              <p className={`product-price-cart`}>{props.price} zł</p>
-             <Button onClick={(e)=>{console.log(CartItems);console.log(props.key);RemoveDataFromLocalStorage(props.key)}}>dadada</Button>
+             <p className={`product-price-cart`}>ilosc: {props.quantity} </p>
+             <Button onClick={(e)=>{RemoveDataFromLocalStorage(props.key)}}>dadada</Button>
         </div>
     )
 }
