@@ -183,3 +183,21 @@ form{
   span {
     margin-left: 16px;
   }
+  footer{
+    clear: both;
+    position: relative;
+    bottom: 0;
+    height: 5vh;
+    background-color: black;
+    color: rgb(177, 160, 160);
+    width: 100vw;
+    line-height: 5vh;
+}
+.cart-page-main,.single-product-page,.admin-sign-in{
+    height: 95vh;
+}
+.card:hover{
+    box-shadow: 0 0 15px rgb(172, 172, 172);
+    cursor: pointer;
+
+}

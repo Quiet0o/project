@@ -29,11 +29,11 @@ const Product =({props,descExits})=>{
            <p className={`product-title-${single}`}> {props.title}</p> 
            
            {descExits ? <p className={`product-description-${single}`}> description:  {props.description}</p>:<></>}
-           
+           {console.log(props.quantity)}
                      
-           {descExits ? <Button onClick={() => addToCart()}>Add Product to cart</Button> : undefined}
-
            <p className={`product-price-${single}`}>{props.price} zł</p>
+           {descExits ? <Button   onClick={() => addToCart()}>Add Product to cart</Button> : undefined}
+
            
         </div>
     )

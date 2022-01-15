@@ -4,6 +4,7 @@ import { db } from "../../config/firebase-config";
 import Product from "./Product";
 import ErrorPage from "../ErrorPage";
 import { useParams } from "react-router";
+import NavBarComponet from "../NavBarComponet/NavBarComponet";
 
 const SingleProduct = () => {
   const { ProductId } = useParams();
@@ -48,6 +49,8 @@ const SingleProduct = () => {
 
   return (
     <div className="single-product-page">     
+      <NavBarComponet />
+
       <ProductElement />
       {/* <AddingProductToCart/> */}
 

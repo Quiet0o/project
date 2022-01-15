@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {Nav, Navbar,Container,Form, Button,  FormControl, Badge, Offcanvas, NavDropdown} from 'react-bootstrap';
+import {Nav, Navbar,Container, Offcanvas} from 'react-bootstrap';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { auth } from '../config/firebase-config';
 
 
 function AdminSideBar() {
@@ -9,40 +10,27 @@ function AdminSideBar() {
   return (
     <Navbar bg="light" expand={false} >
     <Container fluid>
-      <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
       <Navbar.Toggle aria-controls="offcanvasNavbar" />
       <Navbar.Offcanvas
         id="offcanvasNavbar"
         aria-labelledby="offcanvasNavbarLabel"
-        placement="end"
+        placement="start"
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title id="offcanvasNavbarLabel">Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title id="offcanvasNavbarLabel">Admin Panel</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
-            <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+          <Nav className="justify-content-start flex-grow-1 pe-3">
+            <Nav.Link href="/admin">Home</Nav.Link>
+            <Nav.Link href="/admin/products">Products</Nav.Link>
+            <Nav.Link href="/admin/create/newAdmin">Create Admin</Nav.Link>
+            <Nav.Link href="/admin/create/product">Create Product</Nav.Link>
+            <Nav.Link href="/admin/products"></Nav.Link>
+            </Nav>
         </Offcanvas.Body>
+      <p class="text-center fs-5">{auth.currentUser.email}</p>
       </Navbar.Offcanvas>
+    <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
     </Container>
   </Navbar>
   )

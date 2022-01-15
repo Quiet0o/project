@@ -4,7 +4,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import AdminPage from "./AdminPage";
-import { Button } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 
 const SingInComponent = () => {
   const [admin, setAdmin] = useState(false);
@@ -12,12 +12,13 @@ const SingInComponent = () => {
   const [loginPassword, setLoginPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
 
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
     const querySnapshot = await getDocs(collection(db, "Admins"));
     console.log(auth.currentUser);
-    // try {
+
     querySnapshot.forEach((doc) => {
       adminsCheck.push({ ...doc.data() });
       console.log(doc.data().AdminEmail);
@@ -60,12 +61,12 @@ const SingInComponent = () => {
           break;
         case "auth/invalid-password":
           alert("The provided password is invalid!");
-          setError("The provided password is invalid!");
+          setErrorPassword("The provided password is invalid!");
 
           break;
         case "auth/wrong-password":
           alert("The provided value for the password user property is wrong");
-          setError(
+          setErrorPassword(
             "The provided value for the password user property is wrong"
           );
 
@@ -84,44 +85,69 @@ const SingInComponent = () => {
     }
   };
   return (
-    <div className="ssds">
+    <div className="admin-sign-in">
       {admin ? (
         <></>
       ) : (
-        <div className="dupa">
-          <h1>Login in </h1>
-          <p style={{ color: "red" }}>{error}</p>
+        <div className="admin-sign-in-form">
+          <Container>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="name@example.com"
+                    autocompletetype="email"
+                    onChange={(e) => {
+                      setLoginEmail(e.target.value);
+                    }}
+                    required
+                  />
+                  <label for="floatingInput">
+                    <Form.Text className="text-muted">Email address</Form.Text>
+                  </label>
+                </div>
+                <Form.Text className="text-danger">{error}</Form.Text>
+              </Form.Group>
 
-          <input
-            type="email"
-            placeholder="email..."
-            autocomplete="on"
-            name="email"
-            autocompletetype="email"
-            onChange={(e) => {
-              setLoginEmail(e.target.value);
-            }}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="password..."
-            onChange={(e) => {
-              setLoginPassword(e.target.value);
-            }}
-          />
-          <br />
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
 
-          <Button
-            onClick={(e) => {
-              Login();
-            }}
-          >
-            Login
-          </Button>
+                <div class="form-floating">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="floatingPassword"
+                    placeholder="Password"
+                    onChange={(e) => {
+                      setLoginPassword(e.target.value);
+                    }}
+                    required
+                  />
+                  <label for="floatingPassword">
+                    <Form.Text className="text-muted">Password</Form.Text>
+                  </label>
+                </div>
+
+                <Form.Text className="text-danger">{errorPassword}</Form.Text>
+              </Form.Group>
+
+              <Button
+                onClick={(e) => {
+                  Login();
+                }}
+                // type="submit"
+              >
+                Login
+              </Button>
+            </Form>
+          </Container>
         </div>
       )}
-      
+
       {admin ? <AdminPage /> : <></>}
     </div>
   );

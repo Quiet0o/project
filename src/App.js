@@ -8,6 +8,9 @@ import CheckAdminLogin from "./components/Admin/CheckAdminLogin";
 import { useState, useEffect } from "react";
 import ItemsInCart from "./components/Page/ProductComponets/ItemsInCart";
 import { CartContext } from "./Context/CartContext";
+import AdminShowAllProducts from "./components/Admin/AdminShowAllProducts";
+import CreateNewAdmin from "./components/Admin/CreateNewAdmin";
+import AddProducts from "./components/Admin/AddProducts";
 
 function App() {
 
@@ -21,20 +24,23 @@ function App() {
 
   return (
     <div className="App">
+  
       <CartContext.Provider value={{ CartItems, setCartItems }}>
-        <BrowserRouter>        
-          <NavBarComponet />
+        <BrowserRouter>                 
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/admin" element={<CheckAdminLogin />} />
             <Route path="/product/:ProductId" element={<SingleProduct />} />
             <Route path="/shoppingCart" element={<ItemsInCart />} />
+            <Route path="/admin/products" element={<AdminShowAllProducts />} />
+            <Route path="/admin/create/newAdmin" element={<CreateNewAdmin />} />
+            <Route path="/admin/create/product" element={<AddProducts />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
       </CartContext.Provider>
       <footer>
-        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻 CHujejdsfjkdsf
+        Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻
       </footer>
     </div>
   );

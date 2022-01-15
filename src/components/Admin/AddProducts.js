@@ -2,7 +2,7 @@ import React,{useState,useRef}from 'react'
 import { db,storage } from '../config/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
-import { ProgressBar,Alert } from 'react-bootstrap';
+import { ProgressBar,Alert, Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AiOutlineCloseCircle} from "react-icons/ai"
 const AddProducts=()=>{
@@ -16,8 +16,8 @@ const AddProducts=()=>{
     const refFile = useRef();
     const [progress ,setProgress] = useState(0)
     const [quantity ,setQuantity] = useState(0)
-    const [brand ,setBrand] = useState("")
-    const [type ,setType] = useState("")
+    // const [brand ,setBrand] = useState("test")
+    // const [type ,setType] = useState("tesst")
 
     const HandleAddingProducts=(event)=>{
         event.preventDefault();
@@ -53,25 +53,22 @@ const AddProducts=()=>{
     }
 
     function CreateProduct (photoUrl){
+        // console.log(formData);
         const formData = {
             title: title,
             price: parseFloat(price),
             description: description,
             photoUrl: photoUrl,
             quantity:parseInt(quantity),
-            brand: brand,
-            type: type,
             timestamp:Timestamp.now()
         }
        console.log({formData});
        addDoc(collection(db,"Products"),formData).then(()=>{
+
             setShow(!show)
-            setShowProgress(!!showProgress)
-            setTitle("")
-            setDescription("")
-            setPrice("")
-            ResetFileInput()
+            setShowProgress(!!showProgress)       
             setProgress(0)
+            
        })
     }
     return(
@@ -86,73 +83,101 @@ const AddProducts=()=>{
             </Alert.Heading>    
         </Alert>
           <h2>Add Product</h2>
-          <form onSubmit={HandleAddingProducts}>
-                <input 
-                    value={title}
-                    onChange={(e)=>setTitle(e.target.value)}
-                    type="text" 
-                    name="title"
-                    id="title"
-                    placeholder="podaj tutył produktu" 
+          <Container>
+            <Form onSubmit={(e)=>{HandleAddingProducts(e)}}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Title</Form.Label>
+                <div class="form-floating mb-3">
+                  <input
+                    type="Title"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="Title..."
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                    }}
                     required
-                />
-                <br/>
+                  />
+                  <label for="floatingInput">
+                    <Form.Text className="text-muted">Title</Form.Text>
+                  </label>
+                </div>
+              </Form.Group>
 
-                <input 
-                    value={price}
-                    onChange={(e)=>setPrice(e.target.value)}
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Price</Form.Label>
+
+                <div class="form-floating">
+                  <input
                     type="number"
                     step="0.01" 
-                    name="price"
-                    id="price"
-                    placeholder="podaj cene produktu"
+                    class="form-control"
+                    id="floatingPassword"
+                    placeholder="Password"
+                    onChange={(e)=>setPrice(e.target.value)}
                     required
-                    />
-                <br/>
-                <input 
-                    value={description}
+                  />
+                  <label for="floatingPassword">
+                    <Form.Text className="text-muted">Price</Form.Text>
+                  </label>
+                </div>
+
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>description</Form.Label>
+                <Form.Control
+                    id ="floatingPassword"
+                    as="textarea"
+                    placeholder="Leave a description here"
+                    style={{ height: '100px' }}
                     onChange={(e)=>setDescription(e.target.value)}
-                    type="text" 
-                    name="description"
-                    id="description"
-                    placeholder="podaj opis produktu"
-                    required
-                />
-                <br/>
-                <input 
+                    />
+
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>dolacz zdj produktu</Form.Label>
+
+                  <input
                     ref={refFile}
-                    id="photoUrl"
-                    name="photoUrl"
-                    type="file"
-                    accept=".jpeg,.gif,.png,.jpg" 
+                    type="file" 
+                    step="0.01" 
+                    class="form-control"
+                    id="floatingPassword"
+                    placeholder="Password"
                     onChange={(e)=>setFile(e.target.files[0])}
-                    placeholder="dolacz zdj produktu"
-                />
-                <br />
-                
-                <input 
-                    value={quantity}
-                    onChange={(e)=>setQuantity(e.target.value)}
+                    required
+                  />
+                 
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>enter quantity</Form.Label>
+
+                <div class="form-floating">
+                  <input
+                    ref={refFile}
                     type="number" 
                     name="quantity"
                     id="quantity"
-                    placeholder="podaj opis produktu"
+                    step="1" 
+                    class="form-control"
+                    id="floatingPassword"
+                    placeholder="Password"
+                    onChange={(e)=>setQuantity(e.target.value)}
                     required
-                />
-                <br/>
-                <label for="brand">Choose a brand:</label>
-        
-                <br />
-                
-                <center>
-                    {showProgress ?<ProgressBar variant="success" striped animated now={progress} style={{width:"10vw"}} /> :<></> }
-                </center>
+                  />
+                  <label for="floatingPassword">
+                    <Form.Text className="text-muted">enter quantity</Form.Text>
+                  </label>
+                </div>
 
-                <br/>
-                <input 
-                    type="submit"
-                />
-            </form>
+              </Form.Group>
+              <Button
+                type="submit"
+              >
+                Create
+              </Button>
+            </Form>
+          </Container>
         </div>
         
     )
