@@ -5,6 +5,7 @@ import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/st
 import { ProgressBar,Alert, Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AiOutlineCloseCircle} from "react-icons/ai"
+import AdminSideBar from './AdminSideBar';
 const AddProducts=()=>{
     const  [file,setFile]= useState(null)
     const [show,setShow]=useState(false)
@@ -73,6 +74,7 @@ const AddProducts=()=>{
     }
     return(
         <div className="Add-Product">
+        <AdminSideBar/>
         <Alert show={show} variant="success">
             <Alert.Heading>
                 Success addded Product
@@ -84,12 +86,12 @@ const AddProducts=()=>{
         </Alert>
           <h2>Add Product</h2>
           <Container>
-            <Form onSubmit={(e)=>{HandleAddingProducts(e)}}>
+            <Form  onSubmit={(e)=>{HandleAddingProducts(e)}}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Title</Form.Label>
                 <div class="form-floating mb-3">
                   <input
-                    type="Title"
+                    type="text"
                     class="form-control"
                     id="floatingInput"
                     placeholder="Title..."

@@ -3,11 +3,7 @@
     display:flex; 
     flex-direction:column; 
 }
-.all-product {
-    display: grid;
-    grid-template-columns:  auto auto auto;
-    /* width: 400px; */
-}
+
 .product-img-all{
     width: 500px;
     height:400px;

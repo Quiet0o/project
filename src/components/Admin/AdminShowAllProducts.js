@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Container} from "react-bootstrap";
 import { AiOutlineClose } from "react-icons/ai";
 import { db } from "../config/firebase-config";
+import AdminSideBar from "./AdminSideBar";
 
 
 const AdminShowAllProducts = () => {
@@ -47,7 +48,7 @@ const AdminShowAllProducts = () => {
   return (
       
     <div className="admin-page-all-products">
-        {/* <AdminSideBar/> */}
+        <AdminSideBar/>
       <Container>
         <div class="table-wrap">
           <table class="table table-responsive table-borderless">
