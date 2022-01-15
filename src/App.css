@@ -60,9 +60,6 @@
     background-color: rgba(206, 204, 204, 0);
     font-size: 15px;
 }
-#filtr{
-
-}
 input#wpisz:focus{
     outline-width: 0;
 }
