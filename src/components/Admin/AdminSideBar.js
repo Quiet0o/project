@@ -35,13 +35,14 @@ function AdminSideBar() {
             <Nav.Link href="/admin/products">Products</Nav.Link>
             <Nav.Link href="/admin/create/newAdmin">Create Admin</Nav.Link>
             <Nav.Link href="/admin/create/product">Create Product</Nav.Link>
-            <Nav.Link href="/admin/products"></Nav.Link>
+            <Nav.Link href="/admin/create/brand">Create Brand</Nav.Link>
+            <Nav.Link href="/admin/create/type">Create Type</Nav.Link>
             </Nav>
         </Offcanvas.Body>
       {/* <p class="text-center fs-5">{auth.currentUser.email}</p> */}
       <Button onClick={(e)=>{LogOut()}}>Log out</Button>
       </Navbar.Offcanvas>
-    <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+    <Navbar.Brand href="#">Admin Panel</Navbar.Brand>
     </Container>
   </Navbar>
   )

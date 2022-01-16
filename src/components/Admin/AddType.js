@@ -5,26 +5,26 @@ import { AdminContext } from '../../Context/AdminContext';
 import { db } from '../config/firebase-config';
 import ErrorPage from '../Page/ErrorPage';
 import AdminSideBar from './AdminSideBar';
-const AddBrand = ()=>{
+const AddType = ()=>{
 
     const {isAdmin} = useContext(AdminContext)
-    const [brand, setBrand] = useState("")
+    const [type, setType] = useState("")
 
-    const AddBrandToDataBase= async()=>{
-        await addDoc(collection(db, "Brands"), {
-            BrandName: brand,
+    const AddTypeToDataBase= async()=>{
+        await addDoc(collection(db, "Types"), {
+            TypeName: type,
           }).then(()=>(
-              setBrand("")
+              setType("")
           ))
     }
     return(
         <div className="adding-new-brand">
-           { isAdmin?<><AdminSideBar/><h1>Please type name of brand</h1>
-            <input type="text" placeholder="brand name" value={brand}  onChange={(e)=>{setBrand(e.target.value)}} required/>
+           { isAdmin?<><AdminSideBar/><h1>Please type Type</h1>
+            <input type="text" placeholder="type name" value={type}  onChange={(e)=>{setType(e.target.value)}} required/>
             <br/>
-            <Button onClick={(e)=>{AddBrandToDataBase()}}>Add Brand</Button>
+            <Button onClick={(e)=>{AddTypeToDataBase()}}>Add Type</Button>
            </>:<ErrorPage/>}
         </div>
     )
 }
-export default AddBrand
+export default AddType

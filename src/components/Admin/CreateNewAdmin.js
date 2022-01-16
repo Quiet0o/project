@@ -11,6 +11,8 @@ const CreateNewAdmin = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const {isAdmin} = useContext(AdminContext)
+  const [show, setShow] = useState(false);
+
   const Register = async () => {
     try {
       await createUserWithEmailAndPassword(
@@ -20,7 +22,12 @@ const CreateNewAdmin = () => {
       );
       await addDoc(collection(db, "Admins"), {
         AdminEmail: registerEmail,
-      });
+        AdminId:auth.currentUser.uid
+      }).then(() =>
+      setRegisterEmail(""),
+      setRegisterPassword(""),
+      setShow(!show)
+      );
     } catch (err) {
       console.log(err.message);
       alert(err.message);
@@ -29,28 +36,33 @@ const CreateNewAdmin = () => {
 
   return (
     <div className="new-admin">
-      {isAdmin ?<><AdminSideBar />
+      {isAdmin ?<>
 
-      <Alert show={true} variant="success">
-        <Alert.Heading>
-          Success addded new admin
-          <AiOutlineCloseCircle
-            // onClick={()=>{setShow(!show)}}
-            className="admin-close-alert-icon"
-          />
-        </Alert.Heading>
-      </Alert>
-      <h1>Sign in new admin</h1>
+        <AdminSideBar />
+          <Alert show={show} variant="success">
+            <Alert.Heading>
+              Success addded new admin
+              <AiOutlineCloseCircle
+                onClick={() => {
+                  setShow(!show);
+                }}
+                className="admin-close-alert-icon"
+              />
+            </Alert.Heading>
+          </Alert>
 
       <Container>
-        <Form onSubmit={(e)=>{Register()} }> 
+      <h1>Create new Admin</h1>
+        <Form > 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <div class="form-floating mb-3">
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="floatingInput"
+                value={registerEmail}
+                onChange={(e)=>setRegisterEmail(e.target.value)}
                 placeholder="name@example.com"
                 autocompletetype="email"
                 required
@@ -68,8 +80,10 @@ const CreateNewAdmin = () => {
             <div class="form-floating">
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="floatingPassword"
+                value={registerPassword}
+                onChange={(e)=>setRegisterPassword(e.target.value)}
                 placeholder="Password"
                 required
               />
@@ -82,8 +96,9 @@ const CreateNewAdmin = () => {
           </Form.Group>
 
           <Button
-  
-          type="submit"
+            onClick={() => {
+              Register();
+            }}
           >
             Create new admin account
           </Button>

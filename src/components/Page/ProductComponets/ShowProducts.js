@@ -8,11 +8,10 @@ import {
   where,
   limit,
 } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import {Row,Col, Card, Container} from 'react-bootstrap';
+import { Row, Col, Card, Container } from "react-bootstrap";
 import { SearchBarContext } from "../../../Context/SearchBarContext";
-
 
 const ShowProducts = () => {
   const [products, setproducts] = useState([]);
@@ -21,14 +20,14 @@ const ShowProducts = () => {
   let priceMax = 0;
   let priceMin = 0;
   const navigate = useNavigate();
-  const{search,setSearch} = useContext(SearchBarContext)
-  let search_query =""
+  const { search, setSearch } = useContext(SearchBarContext);
+  let search_query = "";
   // const ref = useRef("");
 
   useEffect(() => {
     console.log(search);
     // docRef = query(collection(db, "Products"),where("title","==",search));
-  },[search])
+  }, [search]);
 
   const ShowAllProductsSortedByTime = (
     whatToSort,
@@ -64,7 +63,7 @@ const ShowProducts = () => {
     docRef = query(
       collection(db, "Products"),
       where(whatToSort, character, number),
-      
+
       orderBy(whatToSort, sortBy),
       limit(numberOfProductsOnPage)
     );
@@ -102,7 +101,6 @@ const ShowProducts = () => {
           priceMin = doc.price;
         });
       }
-
     });
   };
 
@@ -117,25 +115,30 @@ const ShowProducts = () => {
   return (
     <div className="all-product">
       <Container>
-      <Row xs={1} sm={2} lg={2} xxl={3} className="g-4" >
-  {products.map((product) => (
-    <Col>
-      <Card >
-        <Card.Img variant="top" src={product.photoUrl} style={{height:"50vh"}} onClick={()=>{navigate(`/product/${product.key}`)}} />
-        <Card.Body>
-          <Card.Title>{product.title}</Card.Title>
-          <Card.Text style={{fontWeight:"bold"}}>
-           {product.price} zł
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </Col>
-  ))}
-</Row>
+        <Row xs={1} sm={2} lg={2} xxl={3} className="g-4">
+          {products.map((product) => (
+            <Col key={product.key}>
+              <Card>
+                <Card.Img
+                  variant="top"
+                  src={product.photoUrl}
+                  style={{ height: "50vh" }}
+                  onClick={() => {
+                    navigate(`/product/${product.key}`);
+                  }}
+                />
+                <Card.Body>
+                  <Card.Title>{product.title}</Card.Title>
+                  <Card.Text style={{ fontWeight: "bold" }}>
+                    {product.price} zł
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </Container>
-      </div>
-
-   
+    </div>
   );
 };
 export default ShowProducts;

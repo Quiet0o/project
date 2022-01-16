@@ -69,38 +69,39 @@ const ItemsInCart = () => {
   return (
     <div className="cart-page-main">
       <NavBarComponet/>
-      <div className="row">
-        <div className="col-md-8 cart">
+      <Container fluid={true}>
+      <Row>
+        <Col md={8} className="cart">
           <div className="title">
-            <div className="row">
-              <div className="col">
+            <Row>
+              <Col>
                 <h4>
                   <b>Shopping Cart</b>
                 </h4>
-              </div>
+              </Col>
               <div className="col align-self-center text-right text-muted">
               {CartItems.length} items
               </div>
-            </div>
+            </Row>
           </div>
-          {CartItems.length > 0 ? <CartItemsElement /> : <div className="row"><h1>Koszyk jest pusty</h1></div>}
+          {CartItems.length > 0 ? <CartItemsElement /> : <Row><h1>Koszyk jest pusty</h1></Row>}
 
           <div className="back-to-shop">
             <AiOutlineDoubleLeft style={{cursor: 'pointer'}} onClick={(e)=>{navigate(`/`)}}/>
             <span className="text-muted">Back to shop</span>
           </div>
-        </div>
-        <div className="col-md-4 summary">
+        </Col>
+        <Col md={4} className="summary">
           <div>
             <h5>
               <b>Summary</b>
             </h5>
           </div>
           <hr />
-          <div className="row">
-            <div className="col">ITEMS {CartItems.length}</div>
+          <Row>
+            <Col>ITEMS {CartItems.length}</Col>
             <div className="col text-right">{ref.current} zł</div>
-          </div>
+          </Row>
           <form>
             <p>SHIPPING</p>{" "}
             <select>
@@ -108,13 +109,14 @@ const ItemsInCart = () => {
             </select>
             <p>GIVE CODE</p> <input id="code" placeholder="Enter your code" />
           </form>
-          <div className="row">
-            <div className="col">TOTAL PRICE</div>
+          <Row>
+            <Col>TOTAL PRICE</Col>
             <div className="col text-right">{ref.current} zł</div>
-          </div>
+          </Row>
          <Button>Checkout</Button>
-        </div>
-      </div>
+        </Col>
+      </Row>
+      </Container>
     </div>
   );
 };

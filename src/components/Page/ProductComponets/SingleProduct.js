@@ -10,7 +10,6 @@ const SingleProduct = () => {
   const { ProductId } = useParams();
 
   const [exists, setExists] = useState(true);
-  
 
   const [products, setProducts] = useState([]);
 
@@ -37,9 +36,9 @@ const SingleProduct = () => {
     if (exists) {
       return products.map((product) => {
         return (
-            <div className="product-single-page-main">
-                <Product props={product} key={product.id} descExits={true}  />
-            </div>
+          <div className="product-single-page-main">
+            <Product props={product} key={product.id} descExits={true} />
+          </div>
         );
       });
     }
@@ -48,12 +47,11 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="single-product-page">     
+    <div className="single-product-page">
       <NavBarComponet />
 
       <ProductElement />
       {/* <AddingProductToCart/> */}
-
     </div>
   );
 };

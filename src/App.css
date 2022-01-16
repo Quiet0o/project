@@ -36,9 +36,7 @@
 
 }
 #wyszukaj{
-    float: left;
-    width: 3vh;
-    height: 3vh;
+  
     border: 0;
     border-radius: 30px;
     background-color: rgba(206, 204, 204, 0);
@@ -52,11 +50,9 @@
     border: none;
 }
 #wpisz{
-    float: left;
-    width: 7vw;
-    height: 3vh;
-    padding: 0;
-    border: 0;
+   
+
+ 
     background-color: rgba(206, 204, 204, 0);
     font-size: 15px;
 }
