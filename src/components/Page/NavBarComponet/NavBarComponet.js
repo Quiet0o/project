@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Mainlogo from "../../../img/logo.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -6,11 +6,12 @@ import {Nav, Navbar,Container,Form, Button,  FormControl, Badge} from 'react-boo
 
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
+import { SearchBarContext } from "../../../Context/SearchBarContext";
 
 const NavBarComponet = () => {
 
-  const {CartItems, } = useContext(CartContext)
-
+  const {CartItems} = useContext(CartContext)
+  const{search,setSearch} = useContext(SearchBarContext)
   return (
     <Navbar bg="light" expand="lg" className="sticky-top" style={{zIndex:100}}>
   <Container fluid>
@@ -34,6 +35,9 @@ const NavBarComponet = () => {
           type="search"
           placeholder="Search"
           aria-label="Search"
+          onChange={(e)=>{
+            setSearch(e.target.value)
+          }}
         />
         
       </Form>

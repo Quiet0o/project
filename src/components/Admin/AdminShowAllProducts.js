@@ -1,17 +1,21 @@
 import { collection, deleteDoc, doc, onSnapshot, query } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container} from "react-bootstrap";
 import { AiOutlineClose } from "react-icons/ai";
+import { AdminContext } from "../../Context/AdminContext";
 import { db } from "../config/firebase-config";
+import ErrorPage from "../Page/ErrorPage";
 import AdminSideBar from "./AdminSideBar";
 
 
 const AdminShowAllProducts = () => {
+
+  const {isAdmin} = useContext(AdminContext)
   const [products, setproducts] = useState([]);
+  const [productsToDelete, setproductsToDelete] = useState([]);
   let i = 0;
   const storage = getStorage();
-
   useEffect(() => {
     const ShowAllProducts = async () => {
       const getProducts = [];
@@ -31,9 +35,15 @@ const AdminShowAllProducts = () => {
     console.log(products);
   }, []);
 
-  const DeleteProduct =  async(key)=>{
-    await deleteDoc(doc(db, "Products",key));
+  const DeleteProduct =  async(product)=>{
+    const product_key   = product.key;
+    const product_photoUrl = product.photoUrl;
+    
+    console.log(product_key,product_photoUrl);
 
+    await deleteDoc(doc(db, "Products",product_key)).then(
+      DeleteImage(product_photoUrl)
+    );
   }
   const DeleteImage = async(key)=>{
     const desertRef = ref(storage, key);
@@ -42,13 +52,17 @@ const AdminShowAllProducts = () => {
       }).catch((error) => {
        alert("Error deleting image",error)
       });
-
+    
+  }
+  
+  const DeleteMultipleProducts = (key)=>{
+      
   }
 
   return (
       
     <div className="admin-page-all-products">
-        <AdminSideBar/>
+      {isAdmin?<><AdminSideBar/>
       <Container>
         <div class="table-wrap">
           <table class="table table-responsive table-borderless">
@@ -64,7 +78,7 @@ const AdminShowAllProducts = () => {
               {products.map((product) => (
                 <tr class="align-middle alert border-bottom" role="alert">
                   <td>
-                    <input type="checkbox" id="check" />
+                    <input type="checkbox" id="check" onClick={(e)=>{console.log(product.key)}}/>
                   </td>
                   <td class="text-center">
                     <img
@@ -89,7 +103,7 @@ const AdminShowAllProducts = () => {
                   
                   <td>
                     <div class="btn" data-bs-dismiss="alert">
-                      <AiOutlineClose style={{color:"red"}} onClick={(e)=>{DeleteProduct(product.key);DeleteImage(product.photoUrl)}}/>
+                      <AiOutlineClose style={{color:"red"}} onClick={(e)=>{DeleteProduct(product);}}/>
                     </div>
                   </td>
                 </tr>
@@ -97,7 +111,7 @@ const AdminShowAllProducts = () => {
             </tbody>
           </table>
         </div>
-      </Container>
+      </Container></>:<ErrorPage/>}
     </div>
   );
 };

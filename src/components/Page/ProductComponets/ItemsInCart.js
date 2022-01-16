@@ -7,34 +7,42 @@ import { db } from "../../config/firebase-config";
 import NavBarComponet from "../NavBarComponet/NavBarComponet";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const ItemsInCart = () => {
   const [ProductsInCart, setProductsInCart] = useState([]);
+  const [ProductQuantity, setProductQuantity] = useState([]);
   const ref = useRef(0);
   const { CartItems } = useContext(CartContext);
   var count = {};
+  const ItemsQuantity =[];
   let liczba = 0;
   let i = 0;
   let quantity = 0;
+  const navigate = useNavigate();
+
+  // const itemsQuantityNumber = useRef(j);
   useEffect(() => {
     CartItems.forEach(function (i) {
       count[i] = (count[i] || 0) + 1;
     });
+    console.log(Object.keys(count));
     Object.keys(count).map((cartItem) => {
       quantity = Object.values(count)[i];
-      console.log(quantity);
-      
+      ItemsQuantity.push(quantity);
+      setProductQuantity(ItemsQuantity);
+     
       const dupa = async (quantity) => {
         const getSingleProduct = [];
         
         onSnapshot(doc(db, "Products", cartItem), (doc) => {
           getSingleProduct.push({
             key: doc.id,
-            quantity: quantity,
+            quantity_cart: quantity,
             ...doc.data(),
           });
           getSingleProduct.map((test) => {
-            liczba += test.price * test.quantity;
+            liczba += test.price * quantity;
             ref.current = liczba;
           });
           setProductsInCart((prev) => [...prev, ...getSingleProduct]);
@@ -43,10 +51,13 @@ const ItemsInCart = () => {
       dupa(quantity);
       i++;
     });
+    // console.log(Object.values(count)[0]); ;
   }, [CartItems]);
+
 
   const CartItemsElement = () => {
     return ProductsInCart.map((item) => {
+      console.log(item.quantity_cart);
       return (
         <div className="row border-top border-top">
           <CartItem props={item} />
@@ -75,7 +86,7 @@ const ItemsInCart = () => {
           {CartItems.length > 0 ? <CartItemsElement /> : <div className="row"><h1>Koszyk jest pusty</h1></div>}
 
           <div className="back-to-shop">
-            <AiOutlineDoubleLeft/>
+            <AiOutlineDoubleLeft style={{cursor: 'pointer'}} onClick={(e)=>{navigate(`/`)}}/>
             <span className="text-muted">Back to shop</span>
           </div>
         </div>
@@ -93,7 +104,7 @@ const ItemsInCart = () => {
           <form>
             <p>SHIPPING</p>{" "}
             <select>
-              <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+              <option class="text-muted">Standard-Delivery-5.00zł</option>
             </select>
             <p>GIVE CODE</p> <input id="code" placeholder="Enter your code" />
           </form>

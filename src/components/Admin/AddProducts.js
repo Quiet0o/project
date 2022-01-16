@@ -1,4 +1,4 @@
-import React,{useState,useRef}from 'react'
+import React,{useState,useRef, useContext}from 'react'
 import { db,storage } from '../config/firebase-config';
 import { collection, addDoc,Timestamp  } from "firebase/firestore"; 
 import { ref,uploadBytes,getDownloadURL,uploadBytesResumable,} from "firebase/storage";
@@ -6,7 +6,13 @@ import { ProgressBar,Alert, Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AiOutlineCloseCircle} from "react-icons/ai"
 import AdminSideBar from './AdminSideBar';
+import ErrorPage from '../Page/ErrorPage';
+import { AdminContext } from '../../Context/AdminContext';
 const AddProducts=()=>{
+
+
+    const {isAdmin} = useContext(AdminContext)
+
     const  [file,setFile]= useState(null)
     const [show,setShow]=useState(false)
     const [showProgress,setShowProgress]=useState(false)
@@ -74,7 +80,8 @@ const AddProducts=()=>{
     }
     return(
         <div className="Add-Product">
-        <AdminSideBar/>
+          
+       { isAdmin?<><AdminSideBar/>
         <Alert show={show} variant="success">
             <Alert.Heading>
                 Success addded Product
@@ -179,7 +186,7 @@ const AddProducts=()=>{
                 Create
               </Button>
             </Form>
-          </Container>
+          </Container></>:<ErrorPage/>}
         </div>
         
     )

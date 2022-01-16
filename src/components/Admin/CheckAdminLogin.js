@@ -1,12 +1,13 @@
-import React from 'react'
-import SingInComponent, { user } from './SignInComponet';
+import React, { useContext } from 'react'
+import SingInComponent  from './SignInComponet';
 import AdminPage from './AdminPage';
+import { AdminContext } from '../../Context/AdminContext';
 const CheckAdminLogin=()=>{
-    console.log(user)
+  const {isAdmin} = useContext(AdminContext)
 
     return(
       <div className="dupa">
-        {user? <AdminPage/>:<SingInComponent/>}
+        {isAdmin? <AdminPage/>:<SingInComponent/>}
       </div>
   
     )

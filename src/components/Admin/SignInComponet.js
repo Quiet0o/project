@@ -1,32 +1,46 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth, db } from "../config/firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import AdminPage from "./AdminPage";
+import {AdminContext} from "../../Context/AdminContext";
 import { Button, Container, Form } from "react-bootstrap";
 
 const SingInComponent = () => {
-  const [admin, setAdmin] = useState(false);
+
+  const {isAdmin, setIsAdmin} = useContext(AdminContext)
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   const [error, setError] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+  useEffect(() => {
 
+
+
+
+    if (isAdmin == true) {
+      
+      console.log("jestes zalogowy");
+    }
+    else{
+      console.log("dupa");
+    }
+},[])
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
     const querySnapshot = await getDocs(collection(db, "Admins"));
-    console.log(auth.currentUser);
+
 
     querySnapshot.forEach((doc) => {
       adminsCheck.push({ ...doc.data() });
-      console.log(doc.data().AdminEmail);
-      console.log(auth.currentUser.email);
+
       if (auth.currentUser.email !== doc.data().AdminEmail) {
         setError("You are not admin on this page");
       } else {
-        setAdmin(!admin);
+        setIsAdmin(!isAdmin);
+        localStorage.setItem('admin', true);  
       }
       return true;
     });
@@ -34,7 +48,7 @@ const SingInComponent = () => {
 
   const Login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
+        await signInWithEmailAndPassword(
         auth,
         loginEmail,
         loginPassword
@@ -86,7 +100,7 @@ const SingInComponent = () => {
   };
   return (
     <div className="admin-sign-in">
-      {admin ? (
+      {isAdmin ? (
         <></>
       ) : (
         <div className="admin-sign-in-form">
@@ -148,9 +162,8 @@ const SingInComponent = () => {
         </div>
       )}
 
-      {admin ? <AdminPage /> : <></>}
+      {isAdmin ? <AdminPage /> : <></>}
     </div>
   );
 };
-export let user;
 export default SingInComponent;
