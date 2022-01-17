@@ -14,7 +14,7 @@ const Product = ({ props, descExits }) => {
 
     const addToCart = async () => {
         localStorage.setItem('cart', JSON.stringify([...CartItems, props.key]));
-
+        
         setCartItems(prev => [...prev, props.key]);
     }
 

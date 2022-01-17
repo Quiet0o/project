@@ -47,20 +47,12 @@ const AdminShowAllProducts = () => {
     console.log(product_key);
     console.log(product_key,product_photoUrl);
 
-    await deleteDoc(doc(db, "Products",product_key)).then(
-      DeleteImage(product_photoUrl)
-    );
+    await deleteDoc(doc(db, "Products",product_key)).then(() => {
+      window.location.reload(false)
+
+    });
   }
-  const DeleteImage = async(key)=>{
-    const desertRef = ref(storage, key);
-    deleteObject(desertRef).then(() => {
-        // alert("Image deleted")
-        
-        window.location.reload(false);
-      }).catch((error) => {
-       alert("Error deleting image",error)
-      });
-  }
+
   
 
   return (
@@ -78,6 +70,7 @@ const AdminShowAllProducts = () => {
               <th>Product</th>
               <th>Price</th>
               <th>Brand</th>
+              <th>Type</th>
               <th>Quantity</th>
               </tr>
             </thead>
@@ -104,6 +97,9 @@ const AdminShowAllProducts = () => {
                   </td>
                   <td >
                   <div className="fw-600">{product.brand}</div> 
+                  </td>
+                  <td >
+                  <div className="fw-600">{product.type}</div> 
                   </td>
                   <td >
                   <div className="fw-600">{product.quantity}</div> 

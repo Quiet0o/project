@@ -16,7 +16,8 @@ import { SearchBarContext } from "./Context/SearchBarContext";
 import { ModalContext } from "./Context/ModalContext";
 import AddBrand from "./components/Admin/AddBrand";
 import AddType from "./components/Admin/AddType";
-
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "./components/config/firebase-config";
 function App() {
 
   const [CartItems, setCartItems] = useState([]);
@@ -26,7 +27,9 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("cart") !== null) {
+      
       setCartItems(JSON.parse(localStorage.getItem("cart")));
+      
     }
     if (localStorage.getItem("admin") !== null) {
       setIsAdmin(JSON.parse(localStorage.getItem("admin")));

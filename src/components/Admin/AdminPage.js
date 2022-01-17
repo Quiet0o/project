@@ -6,10 +6,10 @@ import AdminSideBar from './AdminSideBar';
 const AdminPage =()=>{
 
     return (
+        
         <div className="admin-page">
-            <Container fluid={true}>
-
-            <AdminSideBar/>
+                <AdminSideBar/>
+                    <Container fluid={true}>
             </Container>
             {/* <AdminShowAllProducts /> */}
     

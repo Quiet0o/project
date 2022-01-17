@@ -30,7 +30,7 @@ const AddProducts = () => {
   const [brand ,setBrand] = useState("")
   const [types ,setTypes] = useState([])
   const [type ,setType] = useState("")
-
+  
   // const [type ,setType] = useState("tesst")
   useEffect(() => {
     const GetAllBrands = async () => {
@@ -63,9 +63,11 @@ const AddProducts = () => {
     };
     GetAllBrands();
     GetAllTypes()
-    console.log(brands);
+ 
+    
   },[])
   const HandleAddingProducts = (event) => {
+    
     event.preventDefault();
     if (file != null) {
       console.log(file.name);
@@ -79,13 +81,10 @@ const AddProducts = () => {
         );
         setShowProgress(!showProgress);
         setProgress(progressbar);
-        console.log("Upload is " + Math.floor(progress) + "% done");
+        console.log("Upload is " + Math.floor(progressbar) + "% done");
       });
 
       uploadBytes(storageRef, file)
-        .then((snapshot) => {
-          console.log("uploaded");
-        })
         .then(() => {
           getDownloadURL(uploadURL.snapshot.ref).then((downloadURL) => {
             CreateProduct(downloadURL);
@@ -99,17 +98,18 @@ const AddProducts = () => {
   };
 
   function CreateProduct(photoUrl) {
-    // console.log(formData);
+
     const formData = {
       title: title,
       price: parseFloat(price),
       description: description,
       photoUrl: photoUrl,
       brand:brand,
+      type:type,
       quantity: parseInt(quantity),
       timestamp: Timestamp.now(),
     };
-    console.log({ formData });
+
     addDoc(collection(db, "Products"), formData).then(() => {
       setShow(!show);
       setShowProgress(!!showProgress);
@@ -155,7 +155,8 @@ const AddProducts = () => {
                     placeholder="Title..."
                     onChange={(e) => {
                       setTitle(e.target.value);
-                    
+                      setType(types[0].TypeName);
+                      setBrand(brands[0].BrandName)
                     }}
                     required
                   />
@@ -198,7 +199,7 @@ const AddProducts = () => {
               <Form.Group className="mb-3">
               <Form.Label>Select Brand</Form.Label>
 
-                <Form.Select aria-label="Default select example" onChange={(e) =>setBrand(e.target.value)}>
+                <Form.Select aria-label="Default select example"  onChange={(e) =>setBrand(e.target.value)}>
                   {brands.map((brand)=>{
                      return (
                        <option value={brand.BrandName} >{brand.BrandName}</option>
@@ -209,7 +210,7 @@ const AddProducts = () => {
               <Form.Group className="mb-3">
               <Form.Label>Select Type</Form.Label>
 
-                <Form.Select aria-label="Default select example" onChange={(e) =>setBrand(e.target.value)}>
+                <Form.Select aria-label="Default select example"  onChange={(e) =>setType(e.target.value)}>
                   {types.map((types)=>{
                      return (
                        <option value={types.TypeName} >{types.TypeName}</option>

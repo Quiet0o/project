@@ -18,7 +18,7 @@ function AdminSideBar() {
     await signOut(auth);
   };
   return (
-    <Navbar bg="light" expand={false} >
+    <Navbar bg="light" expand={false} className="sticky-top">
     <Container fluid>
       <Navbar.Toggle aria-controls="offcanvasNavbar" />
       <Navbar.Offcanvas

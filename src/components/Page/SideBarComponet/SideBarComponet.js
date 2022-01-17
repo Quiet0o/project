@@ -1,51 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../config/firebase-config";
+import { Form } from "react-bootstrap";
 // import { priceMax, priceMin } from "../ProductComponets/ShowProducts";
 
 const SideBarComponet = () => {
   const [value1, SetValue1] = useState(0);
-  // console.log(priceMax,priceMin);
+  const [brands ,setBrands] = useState([])
+  const [types ,setTypes] = useState([])
+ useEffect(() => {
+    const GetAllBrands = async () => {
+      const getProducts = [];
+      const docRef = collection(db, "Brands");
+
+      onSnapshot(docRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          getProducts.push({
+            key: doc.id,
+            ...doc.data(),
+          });
+          setBrands([...getProducts]);
+        });
+      });
+    };
+    const GetAllTypes = async () => {
+      const getProducts = [];
+      const docRef = collection(db, "Types");
+
+      onSnapshot(docRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          getProducts.push({
+            key: doc.id,
+            ...doc.data(),
+          });
+          setTypes([...getProducts]);
+        });
+      });
+    };
+    GetAllBrands();
+    GetAllTypes()
+    console.log(brands);
+  },[])
+  
+
   return (
     <div
       className="sidebar-componet"
-      style={{ float: "left", width: "13vw", height: "100vw", padding: "20px" }}
+      style={{ float: "left", padding: "20px" }}
     >
       <Range min={0} max={100} tipFormatter={(value) => `${value}%`} />
-      <form action="*">
+      <Form>
         <label>Wybież marke:</label>
-        <br />
-        <input className="check" type={"checkbox"} /> Harnaś
-        <br />
-        <input className="check" type={"checkbox"} /> Perła
-        <br />
-        <input className="check" type={"checkbox"} /> Tyskie
-        <br />
-        <input className="check" type={"checkbox"} /> Żubr
-        <br />
-        <input className="check" type={"checkbox"} /> Warka
-        <br />
-        <input className="check" type={"checkbox"} /> Lech
-        <br />
-        <input className="check" type={"checkbox"} /> Książęce
-        <br />
-        <input className="check" type={"checkbox"} /> Dębowe
-        <br />
-        <input className="check" type={"checkbox"} /> Redd's
-        <br />
-        <input className="check" type={"checkbox"} /> Hardmade
-        <br />
-        <input className="check" type={"checkbox"} /> Captain Jack
-        <br />
-        <input className="check" type={"checkbox"} /> Kozel
-        <br />
-        <input className="check" type={"checkbox"} /> Pilsner Urquell
-        <br />
-        <input className="check" type={"checkbox"} /> Tatra
-        <br />
-        <input className="check" type={"checkbox"} /> Łomża
-        <br />
-      </form>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+        {brands.map((brand) =>{
+            return (<Form.Check type="checkbox" label={brand.BrandName} />)
+        })}
+       </Form.Group>
+       <Form.Group className="mb-3" controlId="formBasicCheckbox">
+        <label>Wybież Typ Piwa:</label>
+          {types.map((type) =>{
+           return (<Form.Check type="checkbox" label={type.TypeName} />)
+        })}
+        </Form.Group>
+      </Form>
     </div>
   );
 };

@@ -25,14 +25,14 @@ const CartItem = ({ props, quantity }) => {
   return (
     <div className="row main align-items-center">
       <div className="col-2">
-        <img
+        {props.photoUrl?<img
           height="150"
           width="150"
           style={{ float: "left" }}
           className="img-fluid"
           src={props.photoUrl}
           alt={props.title}
-        />
+        />:<p>Error with Item</p>}
       </div>
       <div className="col">
         <div className="row">{props.title}</div>
@@ -45,6 +45,7 @@ const CartItem = ({ props, quantity }) => {
       <div className="col">
         {props.price} zł
         <AiFillDelete
+          style={{marginLeft:"5px"}}
           className="close"
           onClick={(e) => {
             RemoveDataFromLocalStorage(props.key);

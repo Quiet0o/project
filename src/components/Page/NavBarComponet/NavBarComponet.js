@@ -7,10 +7,31 @@ import { Nav, Navbar, Container, Form, Button, FormControl, Badge } from 'react-
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import { SearchBarContext } from "../../../Context/SearchBarContext";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../config/firebase-config";
 
 const NavBarComponet = () => {
 
-  const { CartItems } = useContext(CartContext)
+  const { CartItems, setCartItems } = useContext(CartContext)
+  useEffect(() => {
+    CartItems.map((CartItem)=>{
+      console.log(CartItem);
+      onSnapshot(
+        doc(db, "Products", CartItem),
+        (doc) => {
+          if (doc.exists()) {
+            console.log("istnieje");
+            // setCartItems(JSON.parse(localStorage.getItem("cart")));
+          }
+          else{
+            console.log("nie istnieje");
+            CartItems.splice(CartItems.indexOf(CartItem), CartItems.indexOf(CartItem));
+            localStorage.setItem("cart", JSON.stringify(CartItems));
+            setCartItems(JSON.parse(localStorage.getItem("cart")));
+          }
+        })
+      })
+  },[])
   const { search, setSearch } = useContext(SearchBarContext)
   return (
     <Navbar bg="light" expand="lg" className="sticky-top" style={{ zIndex: 100, backgroundColor:"white" }}>
