@@ -9,7 +9,7 @@ const LandingPage = () => {
     <div>
    
         <NavBarComponet />
-        <SideBarComponet/>
+        {/* <SideBarComponet/> */}
         
 
         <ShowProducts />
