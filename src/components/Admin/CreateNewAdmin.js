@@ -12,7 +12,8 @@ const CreateNewAdmin = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const {isAdmin} = useContext(AdminContext)
   const [show, setShow] = useState(false);
-
+  const [error, setError] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
   const Register = async () => {
     try {
         const originalUser = auth.currentUser;
@@ -34,7 +35,45 @@ const CreateNewAdmin = () => {
     } catch (err) {
       console.error(err);
       alert(err.message);
+      console.log(err);
+      switch (err.code) {
+        case "auth/user-not-found":
+          alert("user not found!");
+          setError("user not found!");
+          break;
+        case "auth/email-already-exists":
+          alert("email is already in use by an existing user!");
+          setError("email is already in use by an existing user!");
+          break;
+        case "auth/invalid-email":
+          alert(
+            "email user property is invalid. It must be a string email address!"
+          );
+          setError(
+            "email user property is invalid. It must be a string email address!"
+          );
+          break;
+        case "auth/invalid-password":
+          alert("The provided password is invalid!");
+          setErrorPassword("The provided password is invalid!");
+
+          break;
+        case "auth/wrong-password":
+          alert("The provided value for the password user property is wrong");
+          setErrorPassword(
+            "The provided value for the password user property is wrong"
+          );
+
+          break;
+        case "auth/too-many-requests":
+          alert(
+            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later!"
+          );
+          setError(
+            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later!"
+          );
     }
+  }
     // try {
     //   await createUserWithEmailAndPassword(
     //     auth,
@@ -92,6 +131,7 @@ const CreateNewAdmin = () => {
               <label for="floatingInput">
                 <Form.Text className="text-muted">Email address</Form.Text>
               </label>
+              <Form.Text className="text-danger">{error}</Form.Text>
             </div>
             {/* <Form.Text className="text-danger">{error}</Form.Text> */}
           </Form.Group>
@@ -114,7 +154,7 @@ const CreateNewAdmin = () => {
               </label>
             </div>
 
-            {/* <Form.Text className="text-danger">{errorPassword}</Form.Text> */}
+            <Form.Text className="text-danger">{errorPassword}</Form.Text>
           </Form.Group>
 
           <Button

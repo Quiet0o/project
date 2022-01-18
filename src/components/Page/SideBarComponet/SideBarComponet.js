@@ -4,10 +4,8 @@ import "rc-slider/assets/index.css";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../config/firebase-config";
 import { Form } from "react-bootstrap";
-// import { priceMax, priceMin } from "../ProductComponets/ShowProducts";
 
 const SideBarComponet = () => {
-  const [value1, SetValue1] = useState(0);
   const [brands ,setBrands] = useState([])
   const [types ,setTypes] = useState([])
  useEffect(() => {

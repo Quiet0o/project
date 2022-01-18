@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../config/firebase-config";
 import Product from "./Product";
 import ErrorPage from "../ErrorPage";
@@ -16,9 +16,9 @@ const SingleProduct = () => {
   useEffect(() => {
     const showOneProduct = async () => {
       const getSingleProduct = [];
-
+      
       const docRef = doc(db, "Products", ProductId);
-
+      // const dupa = docRef.listCollections();
       let docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -36,7 +36,7 @@ const SingleProduct = () => {
     if (exists) {
       return products.map((product) => {
         return (
-          <div className="product-single-page-main">
+          <div className="product-single-page-main" key={product.key}>
             <Product props={product} key={product.id} descExits={true} />
           </div>
         );

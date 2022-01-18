@@ -18,6 +18,9 @@ import AddBrand from "./components/Admin/AddBrand";
 import AddType from "./components/Admin/AddType";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "./components/config/firebase-config";
+import User from "./components/Page/User/User";
+import UserLogin from "./components/Page/User/UserLogin";
+import UserSignin from "./components/Page/User/UserSignin";
 function App() {
 
   const [CartItems, setCartItems] = useState([]);
@@ -46,6 +49,10 @@ function App() {
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/product/:ProductId" element={<SingleProduct />} />
+                  <Route path="/admin/create/type" element={<AddType />} />
+                  <Route path="/user" element={<User />} />
+                  <Route path="/userLogin" element={<UserLogin />} />
+                  <Route path="/userSignin" element={<UserSignin />} />
                   <Route path="/shoppingCart" element={<ItemsInCart />} />
                   <Route path="/admin" element={<CheckAdminLogin />} />
                   <Route path="/admin/products" element={<AdminShowAllProducts />} />

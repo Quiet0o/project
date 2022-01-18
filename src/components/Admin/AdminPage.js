@@ -9,8 +9,7 @@ const AdminPage =()=>{
         
         <div className="admin-page">
                 <AdminSideBar/>
-                    <Container fluid={true}>
-            </Container>
+               
             {/* <AdminShowAllProducts /> */}
     
         </div>

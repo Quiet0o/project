@@ -8,23 +8,23 @@ import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import { SearchBarContext } from "../../../Context/SearchBarContext";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { auth, db } from "../../config/firebase-config";
+import { GrUser, GrUserAdmin, GrUserNew } from "react-icons/gr";
 
 const NavBarComponet = () => {
 
   const { CartItems, setCartItems } = useContext(CartContext)
   useEffect(() => {
     CartItems.map((CartItem)=>{
-      console.log(CartItem);
       onSnapshot(
         doc(db, "Products", CartItem),
         (doc) => {
           if (doc.exists()) {
-            console.log("istnieje");
-            // setCartItems(JSON.parse(localStorage.getItem("cart")));
+            // console.log("istnieje");
+            setCartItems(JSON.parse(localStorage.getItem("cart")));
           }
           else{
-            console.log("nie istnieje");
+            // console.log("nie istnieje");
             CartItems.splice(CartItems.indexOf(CartItem), CartItems.indexOf(CartItem));
             localStorage.setItem("cart", JSON.stringify(CartItems));
             setCartItems(JSON.parse(localStorage.getItem("cart")));
@@ -39,6 +39,7 @@ const NavBarComponet = () => {
         <Navbar.Brand href="/"><img id="logoimg" src={Mainlogo} alt="logo" /></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
+          
           <Nav
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: '100px' }}
@@ -48,11 +49,10 @@ const NavBarComponet = () => {
 
           </Nav>
           <Nav>
-            <Button id="wyszukaj" >
-              <AiOutlineSearch className="search-icon" />
-            </Button>
-            <Form id="wpisz" className="d-flex">
-              <FormControl id="wpisz"
+          
+            <Button><AiOutlineSearch className="search-icon" /></Button>
+            <Form  className="d-flex">
+              <FormControl 
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
@@ -63,11 +63,21 @@ const NavBarComponet = () => {
 
             </Form>
           </Nav>
-
+           
           <Nav.Link href="/shoppingCart">
             <AiOutlineShoppingCart className="shop-icon" style={{ height: "35px", fontSize: "1.5em" }} />
-            {CartItems.length > 0 ? <Badge pill>{CartItems.length}</Badge> : <></>}
+            {CartItems.length > 0 ? <Badge style={{ marginLeft:"-5px"}}pill>{CartItems.length}</Badge> : <></>}
           </Nav.Link>
+
+            {console.log(auth.currentUser)}
+       { auth.currentUser?
+         <Nav.Link href="/user">
+           {auth.currentUser? auth.currentUser.photoURL? <img src={auth.currentUser.photoURL}/>:<GrUserAdmin fontSize="2em" color="green"/>:<GrUser fontSize="2em"/>}
+
+          </Nav.Link>:<Nav.Link href="/userLogin">
+           {auth.currentUser? auth.currentUser.photoURL? <img src={auth.currentUser.photoURL}/>:<GrUserAdmin fontSize="2em" color="green"/>:<GrUser fontSize="2em"/>}
+
+          </Nav.Link>}
         </Navbar.Collapse>
       </Container>
     </Navbar>

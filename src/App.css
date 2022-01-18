@@ -1,192 +1,204 @@
-.App{
-    text-align: center;
-    display:flex; 
-    flex-direction:column; 
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.product-img-all{
-    width: 500px;
-    height:400px;
+.product-img-all {
+  width: 500px;
+  height: 400px;
 }
-.Single-product{
-    margin: 20px;
+.Single-product {
+  margin: 20px;
 }
-#baner{
-    width: 100%;
-    height: 11vh;
-    border-bottom:1px solid black ;
+#baner {
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1px solid black;
 }
-#logo{
-    float: left;
-    width: 10vw;
-    height: 10vh;
+#logo {
+  float: left;
+  width: 10vw;
+  height: 10vh;
 }
-#logoimg{
-    height: 6vh;
-    width: 6vh;
-    margin-top: 0.5vh;
+#logoimg {
+  height: 6vh;
+  width: 6vh;
+  margin-top: 0.5vh;
 }
-#search{
-    width: 10vw;
-    height: 3vh;
-    float: left;
-    border-radius:30px ;
-    background-color: rgba(206, 204, 204, 0.849);
-    margin-left: 60vw;
-
+#search {
+  width: 10vw;
+  height: 3vh;
+  float: left;
+  border-radius: 30px;
+  background-color: rgba(206, 204, 204, 0.849);
+  margin-left: 60vw;
 }
-#wyszukaj{
-  
-    border: 0;
-    border-radius: 30px;
-    background-color: rgba(206, 204, 204, 0);
-    margin-top: -5px;
-    margin-left: -5px;
-    margin-right: 1vw;
-    color: black;
- 
+#wyszukaj {
+  border: 0;
+  border-radius: 30px;
+  background-color: rgba(206, 204, 204, 0);
+  margin-top: -5px;
+  margin-left: -5px;
+  margin-right: 1vw;
+  color: black;
 }
-.btn-outline-success:active{
-    border: none;
+.btn-outline-success:active {
+  border: none;
 }
-#wpisz{
-   
-
- 
-    background-color: rgba(206, 204, 204, 0);
-    font-size: 15px;
+#wpisz {
+  background-color: rgba(206, 204, 204, 0);
+  font-size: 15px;
 }
-input#wpisz:focus{
-    outline-width: 0;
+input#wpisz:focus {
+  outline-width: 0;
 }
-.product-img-all:hover,.search-icon:hover,.admin-close-alert-icon:hover{
-    cursor: pointer;
+.product-img-all:hover,
+.search-icon:hover,
+.admin-close-alert-icon:hover {
+  cursor: pointer;
 }
-.product-img-single{
-    float: left;
-    width: 30%;
-    height: 40%;
-    margin-left:5%;
+.product-img-single {
+  float: left;
+  width: 30%;
+  height: 40%;
+  margin-left: 5%;
 }
-footer{
-    margin-top:auto; 
-  }
-.error-title{
-    font-size:5em;
+footer {
+  margin-top: auto;
 }
-.error-icon{
-    margin-top:10vh;
-    font-size:15em;
+.error-title {
+  font-size: 5em;
 }
-.admin-close-alert-icon{
-    float: right;
-    font-size:1.5em;
+.error-icon {
+  margin-top: 10vh;
+  font-size: 15em;
 }
-.navbar{
-    border-bottom:1px solid black ;
+.admin-close-alert-icon {
+  float: right;
+  font-size: 1.5em;
 }
-.product-title{
-    text-align: left;
+.navbar {
+  border-bottom: 1px solid black;
 }
-.product-price{
-    text-align: left;
+.product-title {
+  text-align: left;
 }
-form{
-    text-align: left;
+.product-price {
+  text-align: left;
 }
-form{
-    font-size: 18px;
+form {
+  text-align: left;
 }
-
-
+form {
+  font-size: 18px;
+}
 
 .navbar {
-    background-color: #060b26;
-    height: 80px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-  }
-  
-  .menu-bars {
-    margin-left: 2rem;
-    font-size: 2rem;
-    background: none;
-  }
-  
-  .nav-menu {
-    background-color: #060b26;
-    width: 250px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    transition: 850ms;
-  }
-  
-  .nav-menu.active {
-    left: 0;
-    transition: 350ms;
-  }
-  
-  .nav-text {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 8px 0px 8px 16px;
-    list-style: none;
-    height: 60px;
-  }
-  
-  .nav-text a {
-    text-decoration: none;
-    color: #f5f5f5;
-    font-size: 18px;
-    width: 95%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-radius: 4px;
-  }
-  
-  .nav-text a:hover {
-    background-color: #1a83ff;
-  }
-  
-  .nav-menu-items {
-    width: 100%;
-  }
-  
-  .navbar-toggle {
-    background-color: #060b26;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-  }
-  
-  span {
-    margin-left: 16px;
-  }
-  footer{
-    clear: both;
-    position: relative;
-    bottom: 0;
-    height: 5vh;
-    background-color: black;
-    color: rgb(177, 160, 160);
-    width: 100vw;
-    line-height: 5vh;
+  background-color: #060b26;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
-.cart-page-main,.single-product-page,.admin-sign-in{
-    height: 95vh;
-}
-.card:hover{
-    box-shadow: 0 0 15px rgb(172, 172, 172);
-    cursor: pointer;
 
+.menu-bars {
+  margin-left: 2rem;
+  font-size: 2rem;
+  background: none;
+}
+
+.nav-menu {
+  background-color: #060b26;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
+.nav-text {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+.nav-text a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+.nav-text a:hover {
+  background-color: #1a83ff;
+}
+
+.nav-menu-items {
+  width: 100%;
+}
+
+.navbar-toggle {
+  background-color: #060b26;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}
+footer {
+ float: left;
+ position: relative;
+  bottom: 0;
+  height: 5vh;
+  background-color: black;
+  color: rgb(177, 174, 160);
+  width: 100vw;
+  line-height: 5vh;
+}
+.cart-page-main,
+.admin-sign-in {
+  height: 95vh;
+}
+/* .card:hover {
+  box-shadow: 0 0 15px rgb(172, 172, 172);
+  cursor: pointer;
+} */
+.img-fluid:hover,.All:hover {
+    cursor: pointer;
+}
+.about,.product-description{
+    text-align: left;
+}
+.card{
+    border:none
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px
 }

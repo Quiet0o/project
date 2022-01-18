@@ -110,19 +110,21 @@ const ShowProducts = () => {
     GetMinAndMaxValues("price", "asc", 1, false);
     GetMinAndMaxValues("price", "desc", 1, true);
     ShowAllProducts();
+    
   }, []);
 
   return (
     <div className="all-product">
+
       <Container>
-        <Row xs={1} sm={2} lg={2} xxl={3} className="g-4">
+        <Row xs={1} sm={2} lg={3} xxl={3} className="g-4">
           {products.map((product) => (
             <Col key={product.key}>
-              <Card>
+              <Card className="All">
                 <Card.Img
                   variant="top"
                   src={product.photoUrl}
-                  style={{ height: "50vh" }}
+                  style={{ height: "40vh" }}
                   onClick={() => {
                     navigate(`/product/${product.key}`);
                   }}

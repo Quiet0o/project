@@ -13,7 +13,7 @@ const ItemsInCart = () => {
   const [ProductsInCart, setProductsInCart] = useState([]);
   const [ProductQuantity, setProductQuantity] = useState([]);
   const ref = useRef(0);
-  const { CartItems } = useContext(CartContext);
+  const { CartItems ,setCartItems} = useContext(CartContext);
   var count = {};
   const ItemsQuantity = [];
   let liczba = 0;
@@ -36,9 +36,7 @@ const ItemsInCart = () => {
         onSnapshot(
           doc(db, "Products", cartItem),
           (doc) => {
-
-            console.log(doc.id);
-            
+           
             // console.log(cartItem);
             if (doc.exists()) {
               getSingleProduct.push({
@@ -46,6 +44,7 @@ const ItemsInCart = () => {
                 quantity_cart: quantity,
                 ...doc.data(),
               });
+
               getSingleProduct.map((test) => {
                 liczba += test.price * quantity;
                 ref.current = liczba;
@@ -53,7 +52,14 @@ const ItemsInCart = () => {
               setProductsInCart((prev) => [...prev, ...getSingleProduct]);
             }
             else{
-              console.log("dupa");
+            
+                let cart = JSON.parse(localStorage.getItem('cart'));
+                    
+                cart = cart.filter(item => item !== doc.id);
+            
+                localStorage.setItem('cart', JSON.stringify(cart));
+                window.location.reload();
+              
             }
           }
         );
@@ -117,7 +123,7 @@ const ItemsInCart = () => {
             </div>
             <hr />
             <Row>
-              <Col>ITEMS {CartItems.length}</Col>
+              <Col>ITEMS {ProductsInCart.length}</Col>
               <div className="col text-right">{ref.current} zł</div>
             </Row>
             <form>

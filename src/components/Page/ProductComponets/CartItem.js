@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../Context/CartContext";
 const CartItem = ({ props, quantity }) => {
   const { CartItems } = useContext(CartContext);
   let quantityNumber = props.quantity_cart;
-
+  const navigate = useNavigate();
   const decreaseProductQuantity = () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     const { key: prodId } = props;
@@ -38,14 +39,14 @@ const CartItem = ({ props, quantity }) => {
   return (
     <div className="row main align-items-center">
       <div className="col-2">
-        {props.photoUrl?<img
-          height="150"
-          width="150"
-          style={{ float: "left" }}
+        <img
+      
           className="img-fluid"
+          
           src={props.photoUrl}
           alt={props.title}
-        />:<p>Error with Item</p>}
+          onClick={() => { navigate(`/product/${props.key}`) }}
+        />
       </div>
       <div className="col">
         <div className="row">{props.title}</div>
