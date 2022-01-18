@@ -37,7 +37,7 @@ const ItemsInCart = () => {
           doc(db, "Products", cartItem),
           (doc) => {
 
-            // console.log(doc.id);
+            console.log(doc.id);
             
             // console.log(cartItem);
             if (doc.exists()) {
