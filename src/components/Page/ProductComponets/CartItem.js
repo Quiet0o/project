@@ -5,17 +5,30 @@ import { CartContext } from "../../../Context/CartContext";
 const CartItem = ({ props, quantity }) => {
   const { CartItems } = useContext(CartContext);
   let quantityNumber = props.quantity_cart;
-  const RemoveDataFromLocalStorage = (index) => {
-    const data = CartItems;
 
-    console.log(CartItems.indexOf(index));
-    console.log(data);
-    console.log(index);
-    console.log(CartItems.indexOf(index) - 1, CartItems.indexOf(index));
-    // data.splice(CartItems.indexOf(index), CartItems.indexOf(index));
-    // localStorage.setItem("cart", JSON.stringify(data));
-    // window.location.reload(false);
-  };
+  const decreaseProductQuantity = () => {
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    const { key: prodId } = props;
+
+    const index = cart.indexOf(prodId);
+
+    if (index > -1) {
+        cart.splice(index, 1);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.location.reload();
+  }
+
+  const removeProduct = () => {
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    const { key: prodId } = props;
+    
+    cart = cart.filter(item => item !== prodId);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.location.reload();
+  }
 
   const addToCart = async (props) => {
     localStorage.setItem('cart', JSON.stringify([...CartItems, props.key]));
@@ -38,7 +51,7 @@ const CartItem = ({ props, quantity }) => {
         <div className="row">{props.title}</div>
       </div>
       <div className="col">
-        <a href="#" onClick={(e) => (RemoveDataFromLocalStorage(props.key))}>-</a>
+        <a href="#" onClick={(e) => (decreaseProductQuantity())}>-</a>
         <a href="#">{quantityNumber}</a>
         <a href="#" onClick={(e) => addToCart(props)}>+</a>
       </div>
@@ -48,7 +61,7 @@ const CartItem = ({ props, quantity }) => {
           style={{marginLeft:"5px"}}
           className="close"
           onClick={(e) => {
-            RemoveDataFromLocalStorage(props.key);
+            removeProduct();
           }}
         />
       </div>

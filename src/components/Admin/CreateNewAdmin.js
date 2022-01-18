@@ -15,23 +15,45 @@ const CreateNewAdmin = () => {
 
   const Register = async () => {
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      await addDoc(collection(db, "Admins"), {
-        AdminEmail: registerEmail,
-        AdminId:auth.currentUser.uid
-      }).then(() =>
-      setRegisterEmail(""),
-      setRegisterPassword(""),
-      setShow(!show)
-      );
+        const originalUser = auth.currentUser;
+
+        const res = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+
+        const user = res.user;
+
+        await addDoc(collection(db, "Admins"), {
+            AdminId: user.uid,
+            AdminEmail: registerEmail
+        }).then(() =>
+            setRegisterEmail(""),
+            setRegisterPassword(""),
+            setShow(!show),
+            auth.updateCurrentUser(originalUser)
+        );
+
     } catch (err) {
-      console.log(err.message);
+      console.error(err);
       alert(err.message);
     }
+    // try {
+    //   await createUserWithEmailAndPassword(
+    //     auth,
+    //     registerEmail,
+    //     registerPassword
+    //   );
+
+    //   await addDoc(collection(db, "Admins"), {
+    //     AdminEmail: registerEmail,
+    //     AdminId:auth.currentUser.uid
+    //   }).then(() =>
+    //             setRegisterEmail(""),
+    //             setRegisterPassword(""),
+    //             setShow(!show)
+    //   );
+    // } catch (err) {
+    //   console.log(err.message);
+    //   alert(err.message);
+    // }
   };
 
   return (
