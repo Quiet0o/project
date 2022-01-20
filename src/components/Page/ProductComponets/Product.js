@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
-import { Button, Card, Col } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { collection, collectionGroup, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { auth, db } from "../../config/firebase-config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
@@ -18,11 +18,13 @@ import {
 } from "react-icons/ai";
 import { MdHideSource } from "react-icons/md";
 import { GrFormViewHide, GrHide } from "react-icons/gr";
+import { UserContext } from "../../../Context/UserContext";
 
 SwiperCore.use([Pagination, Navigation]);
 
 const Product = ({ props, descExits }) => {
   const navigate = useNavigate();
+  const {user} = useContext(UserContext)
   const { CartItems, setCartItems } = useContext(CartContext);
   const [hide, setHide] = useState(false);
   const single = descExits ? "single" : "all";
@@ -35,7 +37,7 @@ const Product = ({ props, descExits }) => {
   };
 
   useEffect(() => {
-    const ShowAllProducts = async (type) => {
+    const GetType = async (type) => {
       let docRef = query(collection(db, "Products"), where("type", "==", type));
     const getProducts = [];
         
@@ -53,14 +55,38 @@ const Product = ({ props, descExits }) => {
               key: doc.id,
               ...doc.data(),
             });
-            setProducts([...getProducts]);
+            setProducts((prev) => [...prev, ...getProducts]);
           }
         });
       });
 
     };
-    ShowAllProducts(props.type);
+    GetType(props.type);
+    const GetBrand = async (brand) => {
+      let docRef = query(collection(db, "Products"), where("brand", "==", brand));
+    const getProducts = [];
+        
     
+    const snapRef2 = collectionGroup(db, "ProductReviews" )
+    const querySnapshot = await getDocs(snapRef2);
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, ' => ', doc.data());
+    });
+
+      onSnapshot(docRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          if (props.key !== doc.id) {
+            getProducts.push({
+              key: doc.id,
+              ...doc.data(),
+            });
+            setProducts((prev) => [...prev, ...getProducts]);
+          }
+        });
+      });
+
+    };
+    GetBrand(props.brand);
   }, []);
   return (
     <div className="container-fluid mt-2 mb-3">
@@ -89,15 +115,19 @@ const Product = ({ props, descExits }) => {
 
               <span className="ml-1 font-weight-bold">4.6</span>
             </div>
-            {hide ? (
+            {hide ?
+            <>
               <AiFillEyeInvisible
                 onClick={(e) => {
-                  setHide(!hide);
+                    setHide(!hide);
                 }}
                 fontSize="2em"
                 float="right"
-              />
-            ) : (
+                />
+              
+               
+                </> 
+             :<> 
               <AiFillEye
                 onClick={(e) => {
                   setHide(!hide);
@@ -105,8 +135,9 @@ const Product = ({ props, descExits }) => {
                 fontSize="2em"
                 float="right"
               />
-            )}
-            {hide ? (
+              </>
+            }
+            {hide ? 
               <>
                 <div className="badges">
                   <span className="badge bg-dark ">All (230)</span>
@@ -178,11 +209,13 @@ const Product = ({ props, descExits }) => {
                       </span>
                     </div>
                   </div>
+                  {user ? <Button>Add review</Button>:<Button href="/userLogin">You must login in to add reviews</Button>}
                 </div>
+
               </>
-            ) : (
+             : 
               <></>
-            )}
+            }
           </div>
         </div>
         <div className="col-md-7">
@@ -241,7 +274,7 @@ const Product = ({ props, descExits }) => {
             </div>
           </Card>
           <div className="card mt-2 border-0">
-            <h3>Similar items according to type:</h3>
+            <h3>Similar items</h3>
             <div className="similar-products  d-flex ">
               {products.map((product) => {
                 return (

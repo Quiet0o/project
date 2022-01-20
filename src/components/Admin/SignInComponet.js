@@ -6,28 +6,23 @@ import { collection, getDocs } from "firebase/firestore";
 import AdminPage from "./AdminPage";
 import {AdminContext} from "../../Context/AdminContext";
 import { Button, Container, Form } from "react-bootstrap";
+import { UserContext } from "../../Context/UserContext";
 
 const SingInComponent = () => {
 
   const {isAdmin, setIsAdmin} = useContext(AdminContext)
+  const {user,setUser} = useContext(UserContext)
+  const [dupa, setdupa] = useState({});
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   const [error, setError] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
-  useEffect(() => {
+  onAuthStateChanged(auth,(currentUser)=>{
+    setUser(currentUser);
+    
+  })
 
-
-
-
-    if (isAdmin == true) {
-      
-      console.log("jestes zalogowy");
-    }
-    else{
-      console.log("dupa");
-    }
-},[])
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
     const querySnapshot = await getDocs(collection(db, "Admins"));

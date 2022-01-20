@@ -3,7 +3,6 @@ import ErrorPage from "./components/Page/ErrorPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SingleProduct from "./components/Page/ProductComponets/SingleProduct";
 import LandingPage from "./components/Page/LandingPage/LandingPage";
-import NavBarComponet from "./components/Page/NavBarComponet/NavBarComponet";
 import CheckAdminLogin from "./components/Admin/CheckAdminLogin";
 import { useState, useEffect } from "react";
 import ItemsInCart from "./components/Page/ProductComponets/ItemsInCart";
@@ -16,18 +15,19 @@ import { SearchBarContext } from "./Context/SearchBarContext";
 import { ModalContext } from "./Context/ModalContext";
 import AddBrand from "./components/Admin/AddBrand";
 import AddType from "./components/Admin/AddType";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "./components/config/firebase-config";
+import { auth } from "./components/config/firebase-config";
 import User from "./components/Page/User/User";
 import UserLogin from "./components/Page/User/UserLogin";
 import UserSignin from "./components/Page/User/UserSignin";
+import { onAuthStateChanged } from "firebase/auth";
+import { UserContext } from "./Context/UserContext";
 function App() {
 
   const [CartItems, setCartItems] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
-
+  const [user, setUser] = useState({});
   useEffect(() => {
     if (localStorage.getItem("cart") !== null) {
       
@@ -36,14 +36,21 @@ function App() {
     }
     if (localStorage.getItem("admin") !== null) {
       setIsAdmin(JSON.parse(localStorage.getItem("admin")));
+      
     }
+    console.log(user);
   }, []);
-
+  onAuthStateChanged(auth,(currentUser)=>{
+    setUser(currentUser);
+    
+  })
   return (
     <div className="App">
+      <UserContext.Provider value={{user,setUser}}>
       <CartContext.Provider value={{ CartItems, setCartItems }}>
-        <AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-          <SearchBarContext.Provider value={{ search, setSearch }}>
+      
+        <AdminContext.Provider value={{ isAdmin, setIsAdmin}}>
+          <SearchBarContext.Provider value={{ search, setSearch}}>
             <ModalContext.Provider value={{ show, setShow }}>
               <BrowserRouter>
                 <Routes>
@@ -67,6 +74,7 @@ function App() {
           </SearchBarContext.Provider>
         </AdminContext.Provider>
       </CartContext.Provider>
+      </UserContext.Provider>
       <footer>
         Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻
       </footer>

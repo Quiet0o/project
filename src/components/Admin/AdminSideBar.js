@@ -11,11 +11,11 @@ function AdminSideBar() {
   const {setIsAdmin,isAdmin} = useContext(AdminContext)
   const navigate = useNavigate();
 
-  const LogOut = async () => {
+  const LogOut =  () => {
     setIsAdmin(false)
     navigate("/admin")
     localStorage.setItem('admin', false);  
-    await signOut(auth);
+    signOut(auth);
   };
   return (
     <Navbar bg="light" expand={false} className="sticky-top">

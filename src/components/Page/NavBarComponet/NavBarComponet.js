@@ -10,10 +10,14 @@ import { SearchBarContext } from "../../../Context/SearchBarContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../../config/firebase-config";
 import { GrUser, GrUserAdmin, GrUserNew } from "react-icons/gr";
+import { UserContext } from "../../../Context/UserContext";
 
 const NavBarComponet = () => {
 
-  const { CartItems, setCartItems } = useContext(CartContext)
+  const { CartItems, setCartItems} = useContext(CartContext)
+  const { search, setSearch } = useContext(SearchBarContext)
+  const {user} = useContext(UserContext)
+
   useEffect(() => {
     CartItems.map((CartItem)=>{
       onSnapshot(
@@ -31,8 +35,8 @@ const NavBarComponet = () => {
           }
         })
       })
+      console.log(user);
   },[])
-  const { search, setSearch } = useContext(SearchBarContext)
   return (
     <Navbar bg="light" expand="lg" className="sticky-top" style={{ zIndex: 100, backgroundColor:"white" }}>
       <Container fluid style={{ backgroundColor: "white" }}>
@@ -69,13 +73,13 @@ const NavBarComponet = () => {
             {CartItems.length > 0 ? <Badge style={{ marginLeft:"-5px"}}pill>{CartItems.length}</Badge> : <></>}
           </Nav.Link>
 
-            {console.log(auth.currentUser)}
-       { auth.currentUser?
+            {console.log(user)}
+       { user?
          <Nav.Link href="/user">
-           {auth.currentUser? auth.currentUser.photoURL? <img src={auth.currentUser.photoURL}/>:<GrUserAdmin fontSize="2em" color="green"/>:<GrUser fontSize="2em"/>}
+           {user? user.photoURL? <img src={user.photoURL} height="50vh" style={{borderRadius:"50%"}}/>:<GrUserAdmin fontSize="2em" color="green"/>:<GrUser fontSize="2em"/>}
 
           </Nav.Link>:<Nav.Link href="/userLogin">
-           {auth.currentUser? auth.currentUser.photoURL? <img src={auth.currentUser.photoURL}/>:<GrUserAdmin fontSize="2em" color="green"/>:<GrUser fontSize="2em"/>}
+           <GrUser fontSize="2em"/>
 
           </Nav.Link>}
         </Navbar.Collapse>
