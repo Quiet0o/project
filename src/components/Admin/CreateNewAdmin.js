@@ -74,25 +74,7 @@ const CreateNewAdmin = () => {
           );
     }
   }
-    // try {
-    //   await createUserWithEmailAndPassword(
-    //     auth,
-    //     registerEmail,
-    //     registerPassword
-    //   );
 
-    //   await addDoc(collection(db, "Admins"), {
-    //     AdminEmail: registerEmail,
-    //     AdminId:auth.currentUser.uid
-    //   }).then(() =>
-    //             setRegisterEmail(""),
-    //             setRegisterPassword(""),
-    //             setShow(!show)
-    //   );
-    // } catch (err) {
-    //   console.log(err.message);
-    //   alert(err.message);
-    // }
   };
 
   return (

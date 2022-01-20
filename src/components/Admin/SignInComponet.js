@@ -12,16 +12,12 @@ const SingInComponent = () => {
 
   const {isAdmin, setIsAdmin} = useContext(AdminContext)
   const {user,setUser} = useContext(UserContext)
-  const [dupa, setdupa] = useState({});
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   const [error, setError] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
-  onAuthStateChanged(auth,(currentUser)=>{
-    setUser(currentUser);
-    
-  })
+ 
 
   const CheckoutAdmin = async () => {
     const adminsCheck = [];
