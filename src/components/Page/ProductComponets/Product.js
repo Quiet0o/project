@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
-import { Button, ButtonGroup, Card, Col } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { collection, collectionGroup, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { auth, db } from "../../config/firebase-config";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.min.css";
-import "swiper/swiper.min.css";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../config/firebase-config";
 
-import SwiperCore, { Pagination, Navigation } from "swiper";
 import {
   AiFillCalendar,
   AiFillEye,
   AiFillEyeInvisible,
   AiFillStar,
 } from "react-icons/ai";
-import { MdHideSource } from "react-icons/md";
-import { GrFormViewHide, GrHide } from "react-icons/gr";
-import { UserContext } from "../../../Context/UserContext";
+import { useAuth } from "../../../Context/AuthContext";
+import ModalReview from "./ModalReview";
 
-SwiperCore.use([Pagination, Navigation]);
-
-const Product = ({ props, descExits }) => {
+const Product = ({ props }) => {
   const navigate = useNavigate();
-  const {user} = useContext(UserContext)
+  const { currentUser } = useAuth();
   const { CartItems, setCartItems } = useContext(CartContext);
   const [hide, setHide] = useState(false);
-  const single = descExits ? "single" : "all";
   const [products, setProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [user, setUser] = useState({});
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   const addToCart = async () => {
     localStorage.setItem("cart", JSON.stringify([...CartItems, props.key]));
@@ -39,58 +43,82 @@ const Product = ({ props, descExits }) => {
   useEffect(() => {
     const GetType = async (type) => {
       let docRef = query(collection(db, "Products"), where("type", "==", type));
-    const getProducts = [];
-        
-    
-    const snapRef2 = collectionGroup(db, "ProductReviews" )
-    const querySnapshot = await getDocs(snapRef2);
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, ' => ', doc.data());
-    });
+      const getProducts = [];
+      const querySnapshot = await getDocs(docRef);
 
-      onSnapshot(docRef, (snapshot) => {
-        snapshot.forEach((doc) => {
-          if (props.key !== doc.id) {
-            getProducts.push({
-              key: doc.id,
-              ...doc.data(),
-            });
-            setProducts((prev) => [...prev, ...getProducts]);
-          }
-        });
+      querySnapshot.forEach((doc) => {
+        if (props.key !== doc.id) {
+          getProducts.push({
+            key: doc.id,
+            ...doc.data(),
+          });
+          setProducts((prev) => [...prev, ...getProducts]);
+        }
       });
-
     };
+
     GetType(props.type);
     const GetBrand = async (brand) => {
-      let docRef = query(collection(db, "Products"), where("brand", "==", brand));
-    const getProducts = [];
-        
-    
-    const snapRef2 = collectionGroup(db, "ProductReviews" )
-    const querySnapshot = await getDocs(snapRef2);
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, ' => ', doc.data());
-    });
+      let docRef = query(
+        collection(db, "Products"),
+        where("brand", "==", brand)
+      );
+      const getProducts = [];
+      const querySnapshot = await getDocs(docRef);
 
-      onSnapshot(docRef, (snapshot) => {
-        snapshot.forEach((doc) => {
-          if (props.key !== doc.id) {
-            getProducts.push({
-              key: doc.id,
-              ...doc.data(),
-            });
-            setProducts((prev) => [...prev, ...getProducts]);
-          }
-        });
+      querySnapshot.forEach((doc) => {
+        if (props.key !== doc.id) {
+          getProducts.push({
+            key: doc.id,
+            ...doc.data(),
+          });
+          setProducts((prev) => [...prev, ...getProducts]);
+        }
       });
-
     };
     GetBrand(props.brand);
+    const GetUsersReviews = async () => {
+      const getProducts = [];
+      const q = query(
+        collection(db, "Reviews"),
+        where("productId", "==", props.key)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        getProducts.push({
+          key: doc.id,
+          ...doc.data(),
+        });
+
+        setReviews([...getProducts]);
+      });
+    };
+    GetUsersReviews();
+    const getUser = async (userId) => {
+      const getProducts = [];
+      const q = query(collection(db, "Users"), where("UserId", "==", userId));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        getProducts.push({
+          key: doc.id,
+          ...doc.data(),
+        });
+
+        setUser(...getProducts);
+      });
+    };
+    getUser(currentUser.uid);
   }, []);
   return (
     <div className="container-fluid mt-2 mb-3">
       <div className="row no-gutters">
+        <ModalReview
+          show={show}
+          onClose={handleClose}
+          user={currentUser}
+          product={props}
+          userAdditionalInfo={user}
+        />
         <div className="col-md-5 pr-2">
           <Card className="border-0">
             <div className="demo">
@@ -110,112 +138,86 @@ const Product = ({ props, descExits }) => {
                 <AiFillStar fontSize="1.5em" />
                 <AiFillStar fontSize="1.5em" />
                 <AiFillStar fontSize="1.5em" />
-
               </div>
 
               <span className="ml-1 font-weight-bold">4.6</span>
             </div>
-            {hide ?
-            <>
-              <AiFillEyeInvisible
-                onClick={(e) => {
+            {hide ? (
+              <>
+                <AiFillEyeInvisible
+                  onClick={(e) => {
                     setHide(!hide);
-                }}
-                fontSize="2em"
-                float="right"
+                  }}
+                  fontSize="2em"
+                  float="right"
                 />
-              
-               
-                </> 
-             :<> 
-              <AiFillEye
-                onClick={(e) => {
-                  setHide(!hide);
-                }}
-                fontSize="2em"
-                float="right"
-              />
               </>
-            }
-            {hide ? 
+            ) : (
+              <>
+                <AiFillEye
+                  onClick={(e) => {
+                    setHide(!hide);
+                  }}
+                  fontSize="2em"
+                  float="right"
+                />
+              </>
+            )}
+            {hide ? (
               <>
                 <div className="badges">
-                  <span className="badge bg-dark ">All (230)</span>
-                  <span className="badge bg-dark ">
-                    <i className="fa fa-image"></i> 23
-                  </span>
-                  <span className="badge bg-dark ">
-                    <i className="fa fa-comments-o"></i> 23
-                  </span>
+                  <span className="badge bg-dark ">All ({reviews.length})</span>
                   <span className="badge bg-warning">
+                    <AiFillStar fontSize="1.5em" className="star" />
                     <AiFillStar fontSize="1.5em" color="black" />
                     <AiFillStar fontSize="1.5em" color="black" />
                     <AiFillStar fontSize="1.5em" color="black" />
                     <AiFillStar fontSize="1.5em" color="black" />
-                    <AiFillStar fontSize="1.5em" color="black"/>
-
-                    <span className="ml-1">2,123</span>
                   </span>
                 </div>
 
                 <div className="comment-section">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex flex-row align-items-center">
-                      <img
-                        src="https://i.imgur.com/o5uMfKo.jpg"
-                        className="rounded-circle profile-image"
-                      />
-                      <div className="d-flex flex-column ml-1 comment-profile">
-                        <div className="comment-ratings">
-                          <AiFillStar fontSize="1.5em" />
-                          <AiFillStar fontSize="1.5em" />
+                  {reviews.map((review) => {
+                    return (
+                      <>
+                        <div
+                          className="d-flex justify-content-between align-items-center"
+                          key={review.key}
+                        >
+                          <div className="d-flex flex-row align-items-center">
+                            <span className="username">
+                              {review.userFirstName} {review.userLastName}
+                            </span>
+                          </div>
+                          <div className="comment-ratings">
+                            <AiFillStar fontSize="1.5em" />
+                            <AiFillStar fontSize="1.5em" />
+                          </div>
                         </div>
-                        <span className="username">Lori Benneth</span>
-                      </div>
-                    </div>
-                    <div className="date">
-                      <span
-                        className="text-muted"
-                        style={{ marginRight: "2em" }}
-                      >
-                        2 May
-                      </span>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex flex-row align-items-center">
-                      <img
-                        src="https://i.imgur.com/tmdHXOY.jpg"
-                        className="rounded-circle profile-image"
-                      />
-                      <div className="d-flex flex-column ml-1 comment-profile">
-                        <div className="comment-ratings">
-                          <AiFillStar fontSize="1.5em" />
-                          <AiFillStar fontSize="1.5em" />
-                          <AiFillStar fontSize="1.5em" />
-                          <AiFillStar fontSize="1.5em" />
-                          <AiFillStar fontSize="1.5em" />
+                        <div className="date">
+                          <span
+                            className="text-muted"
+                            style={{ marginRight: "2em" }}
+                          >
+                            {/* {review.timestamp} */}
+                          </span>
                         </div>
-                        <p>Timona Simaung</p>
-                      </div>
-                    </div>
-                    <div className="date">
-                      <span
-                        className="text-muted"
-                        style={{ marginRight: "2em" }}
-                      >
-                        12 May
-                      </span>
-                    </div>
-                  </div>
-                  {user ? <Button>Add review</Button>:<Button href="/userLogin">You must login in to add reviews</Button>}
-                </div>
+                      </>
+                    );
+                  })}
 
+                  {currentUser ? (
+                    <Button onClick={handleShow}>Add review</Button>
+                  ) : (
+                    <Button href="/userLogin">
+                      You must login in to add reviews
+                    </Button>
+                  )}
+                </div>
               </>
-             : 
+            ) : (
               <></>
-            }
+            )}
           </div>
         </div>
         <div className="col-md-7">
@@ -256,19 +258,16 @@ const Product = ({ props, descExits }) => {
                 <h2 className="font-weight-bold">Description</h2>
                 <p>{props.description}</p>
                 <div className="bullets">
-                <h6> Brand name:</h6>
+                  <h6> Brand name:</h6>
                   <div className="d-flex align-items-center">
-                
                     <span className="dot"></span>
                     <span className="bullet-text">{props.brand}</span>
                   </div>
                   <h6>Type name:</h6>
                   <div className="d-flex align-items-center">
-    
                     <span className="dot"></span>
                     <span className="bullet-text">{props.type}</span>
                   </div>
-           
                 </div>
               </div>
             </div>
@@ -283,7 +282,6 @@ const Product = ({ props, descExits }) => {
                     key={product.key}
                     style={{ width: "9rem", marginRight: "3px" }}
                   >
-                    
                     <Card.Img
                       alt={product.title}
                       src={product.photoUrl}

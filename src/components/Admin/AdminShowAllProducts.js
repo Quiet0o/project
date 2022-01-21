@@ -3,22 +3,16 @@ import { deleteObject, getStorage, ref } from "firebase/storage";
 import React, { useContext, useEffect, useState } from "react";
 import { Container} from "react-bootstrap";
 import { AiOutlineClose } from "react-icons/ai";
-import { GrUpdate } from "react-icons/gr";
 import { MdOutlinePublishedWithChanges } from "react-icons/md";
 import { AdminContext } from "../../Context/AdminContext";
-import { ModalContext } from "../../Context/ModalContext";
 import { db } from "../config/firebase-config";
 import ErrorPage from "../Page/ErrorPage";
 import AdminSideBar from "./AdminSideBar";
-import AdminUpdateProduct from "./AdminUpdateProduct";
 
 const AdminShowAllProducts = () => {
 
   const {isAdmin} = useContext(AdminContext)
-  const {show,setShow} = useContext(ModalContext)
   const [products, setproducts] = useState([]);
-  const [productsToDelete, setproductsToDelete] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
 
   let i = 0;
   const storage = getStorage();

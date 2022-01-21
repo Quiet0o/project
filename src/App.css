@@ -202,3 +202,15 @@ footer {
     display: inline-block;
     margin-right: 5px
 }
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.on {
+  color: rgb(255, 208, 0);
+}
+.off {
+  color: rgb(63, 63, 63);
+}

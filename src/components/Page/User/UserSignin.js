@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NavBarComponet from "../NavBarComponet/NavBarComponet";
 import Piwo from "../../../img/piwo.jpeg";
 import Piwo2 from "../../../img/piwo2.jpg";
@@ -30,7 +30,7 @@ const UserSignin = () => {
 
         await addDoc(collection(db, "Users"), {
             UserId: user.uid,
-            AdminEmail: email,
+            Email: email,
             FirstName:firstName,
             LastName: lastName,
             PhoneNumber:phoneNumber,

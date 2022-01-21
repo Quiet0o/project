@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDoc, doc, collection } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../config/firebase-config";
 import Product from "./Product";
 import ErrorPage from "../ErrorPage";
@@ -37,7 +37,7 @@ const SingleProduct = () => {
       return products.map((product) => {
         return (
           <div className="product-single-page-main" key={product.key}>
-            <Product props={product} key={product.id} descExits={true} />
+            <Product props={product} key={product.title} descExits={true} />
           </div>
         );
       });

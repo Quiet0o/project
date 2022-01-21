@@ -12,23 +12,21 @@ import CreateNewAdmin from "./components/Admin/CreateNewAdmin";
 import AddProducts from "./components/Admin/AddProducts";
 import { AdminContext } from "./Context/AdminContext";
 import { SearchBarContext } from "./Context/SearchBarContext";
-import { ModalContext } from "./Context/ModalContext";
 import AddBrand from "./components/Admin/AddBrand";
 import AddType from "./components/Admin/AddType";
-import { auth } from "./components/config/firebase-config";
 import User from "./components/Page/User/User";
 import UserLogin from "./components/Page/User/UserLogin";
 import UserSignin from "./components/Page/User/UserSignin";
-import { onAuthStateChanged } from "firebase/auth";
-import { UserContext } from "./Context/UserContext";
+import { AuthProvider } from "./Context/AuthContext";
 function App() {
 
   const [CartItems, setCartItems] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
-  const [user, setUser] = useState({});
+  
+
   useEffect(() => {
+
     if (localStorage.getItem("cart") !== null) {
       
       setCartItems(JSON.parse(localStorage.getItem("cart")));
@@ -38,20 +36,15 @@ function App() {
       setIsAdmin(JSON.parse(localStorage.getItem("admin")));
       
     }
-    console.log(user);
   }, []);
-  onAuthStateChanged(auth,(currentUser)=>{
-    setUser(currentUser);
-    
-  })
+ 
   return (
     <div className="App">
-      <UserContext.Provider value={{user,setUser}}>
+      <AuthProvider>
       <CartContext.Provider value={{ CartItems, setCartItems }}>
-      
+
         <AdminContext.Provider value={{ isAdmin, setIsAdmin}}>
           <SearchBarContext.Provider value={{ search, setSearch}}>
-            <ModalContext.Provider value={{ show, setShow }}>
               <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
@@ -70,11 +63,10 @@ function App() {
                   <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </BrowserRouter>
-            </ModalContext.Provider>
           </SearchBarContext.Provider>
         </AdminContext.Provider>
       </CartContext.Provider>
-      </UserContext.Provider>
+      </AuthProvider>
       <footer>
         Nie posiadamy akcyzy na alkohol, poniewarz piwo to nie alkohol 🍻
       </footer>

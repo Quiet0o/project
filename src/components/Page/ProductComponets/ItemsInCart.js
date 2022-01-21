@@ -37,7 +37,7 @@ const ItemsInCart = () => {
           doc(db, "Products", cartItem),
           (doc) => {
            
-            // console.log(cartItem);
+            console.log(cartItem);
             if (doc.exists()) {
               getSingleProduct.push({
                 key: doc.id,
@@ -67,7 +67,7 @@ const ItemsInCart = () => {
       dupa(quantity);
       i++;
     });
-  }, [CartItems]);
+  }, []);
 
   const CartItemsElement = () => {
     return ProductsInCart.map((item) => {

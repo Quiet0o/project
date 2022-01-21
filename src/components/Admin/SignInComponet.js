@@ -2,48 +2,42 @@ import React, { useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth, db } from "../config/firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import AdminPage from "./AdminPage";
-import {AdminContext} from "../../Context/AdminContext";
+import { AdminContext } from "../../Context/AdminContext";
 import { Button, Container, Form } from "react-bootstrap";
-import { UserContext } from "../../Context/UserContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const SingInComponent = () => {
-
-  const {isAdmin, setIsAdmin} = useContext(AdminContext)
-  const {user,setUser} = useContext(UserContext)
+  const { isAdmin, setIsAdmin } = useContext(AdminContext);
+  const { currentUser } = useAuth();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   const [error, setError] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
- 
 
   const CheckoutAdmin = async () => {
-    const adminsCheck = [];
-    const querySnapshot = await getDocs(collection(db, "Admins"));
+    const q = query(
+      collection(db, "Admins"),
+      where("AdminEmail", "==", currentUser.email)
+    );
 
-
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      adminsCheck.push({ ...doc.data() });
-
-      if (auth.currentUser.email !== doc.data().AdminEmail) {
-        setError("You are not admin on this page");
-      } else {
+      if (doc.exists) {
+        console.log("jestes admin");
         setIsAdmin(!isAdmin);
-        localStorage.setItem('admin', true);  
+        localStorage.setItem("admin", true);
+      } else {
+        setError("You are not admin on this page");
       }
-      return true;
     });
   };
 
   const Login = async () => {
     try {
-        await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
+      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       CheckoutAdmin();
     } catch (err) {
       console.log(err);

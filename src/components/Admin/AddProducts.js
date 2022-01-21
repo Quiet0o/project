@@ -107,7 +107,7 @@ const AddProducts = () => {
       brand:brand,
       type:type,
       quantity: parseInt(quantity),
-      timestamp: Timestamp.now(),
+      timestamp: Timestamp.now().toDate()
     };
 
     addDoc(collection(db, "Products"), formData).then(() => {
