@@ -141,9 +141,9 @@ const AddProducts = () => {
             <h2>Add Product</h2>
             <Form
               method="post"
-              onSubmit={(e) => {
-                HandleAddingProducts(e);
-              }}
+              onSubmit={
+                HandleAddingProducts
+              }
             >
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>

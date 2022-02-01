@@ -3,32 +3,56 @@ import { CartContext } from "../../../Context/CartContext";
 import { useContext } from "react";
 import CartItem from "./CartItem";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { analytics, db } from "../../config/firebase-config";
 import NavBarComponet from "../NavBarComponet/NavBarComponet";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 const ItemsInCart = () => {
   const [ProductsInCart, setProductsInCart] = useState([]);
-  const [ProductQuantity, setProductQuantity] = useState([]);
+
   const ref = useRef(0);
   const { CartItems ,setCartItems} = useContext(CartContext);
   var count = {};
-  const ItemsQuantity = [];
   let liczba = 0;
   let i = 0;
   let quantity = 0;
   const navigate = useNavigate();
-
+  const item_jeggings = {
+    item_id: 'SKU_123',
+    item_name: 'jeggings',
+    item_category: 'pants',
+    item_variant: 'black',
+    item_brand: 'Google',
+    price: 9.99
+  };
+  
+  // A pair of boots
+  const item_boots = {
+    item_id: 'SKU_456',
+    item_name: 'boots',
+    item_category: 'shoes',
+    item_variant: 'brown',
+    item_brand: 'Google',
+    price: 24.99
+  };
+  const item_jeggings_quantity = {
+    ...item_jeggings,
+    quantity: 2
+  };
+  
+  const item_boots_quantity = {
+    ...item_boots,
+    quantity: 1
+  };
   useEffect(() => {
     CartItems.forEach(function (i) {
       count[i] = (count[i] || 0) + 1;
     });
     Object.keys(count).map((cartItem) => {
       quantity = Object.values(count)[i];
-      ItemsQuantity.push(quantity);
-      setProductQuantity(ItemsQuantity);
 
       const dupa = async (quantity) => {
         const getSingleProduct = [];
@@ -67,9 +91,21 @@ const ItemsInCart = () => {
       dupa(quantity);
       i++;
     });
+ 
+
+    // Prepare ecommerce params
+  
   }, []);
 
   const CartItemsElement = () => {
+    const params5 = {
+      currency: 'PLN',
+      value: ref.current,
+      items: [...ProductsInCart]
+    };
+    console.log(params5);
+      logEvent(analytics, 'view_cart', params5);
+
     return ProductsInCart.map((item) => {
       return (
         <div className="row border-top border-top" key={item.key}>

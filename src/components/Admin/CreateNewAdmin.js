@@ -26,8 +26,6 @@ const CreateNewAdmin = () => {
             AdminId: user.uid,
             AdminEmail: registerEmail
         }).then(() =>
-            setRegisterEmail(""),
-            setRegisterPassword(""),
             setShow(!show),
             auth.updateCurrentUser(originalUser)
         );
@@ -96,7 +94,7 @@ const CreateNewAdmin = () => {
 
       <Container>
       <h1>Create new Admin</h1>
-        <Form > 
+        <Form onSubmit={Register} >
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <div class="form-floating mb-3">
@@ -140,9 +138,7 @@ const CreateNewAdmin = () => {
           </Form.Group>
 
           <Button
-            onClick={() => {
-              Register();
-            }}
+          type="submit"
           >
             Create new admin account
           </Button>

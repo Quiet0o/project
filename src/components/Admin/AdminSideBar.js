@@ -1,7 +1,6 @@
 import { signOut } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import {Nav, Navbar,Container, Offcanvas, Button} from 'react-bootstrap';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { AdminContext } from '../../Context/AdminContext';
 import { auth } from '../config/firebase-config';

@@ -7,6 +7,7 @@ import {
   orderBy,
   where,
   limit,
+  getDocs,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -72,15 +73,17 @@ const ShowProducts = () => {
   const ShowAllProducts = async () => {
     const getProducts = [];
 
-    onSnapshot(docRef, (snapshot) => {
-      snapshot.forEach((doc) => {
+  
+      
+      const querySnapshot = await getDocs(docRef);
+      querySnapshot.forEach((doc) => {
         getProducts.push({
           key: doc.id,
           ...doc.data(),
         });
+
         setproducts([...getProducts]);
       });
-    });
   };
 
   const GetPrice = async (flag) => {

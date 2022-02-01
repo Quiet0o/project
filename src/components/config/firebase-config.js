@@ -2,6 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {getStorage } from "firebase/storage";
 import {getAuth} from "firebase/auth"
+import { getAnalytics } from "firebase/analytics";
+import { getPerformance } from "firebase/performance";
 
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyBYfecFlYj8-y5N5lt5MstLPTsJ8jO2cWs",
@@ -11,12 +13,13 @@ const firebaseApp = initializeApp({
   storageBucket: "karina-projec.appspot.com",
   messagingSenderId: "840056781037",
   appId: "1:840056781037:web:e3b6502ef0891610aaf4e4",
-  measurementId: "${config.measurementId}"
-});
+  measurementId: "G-TRDRE1HY9C"});
   
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 const auth = getAuth(firebaseApp);
+const perf = getPerformance(firebaseApp);
 
-export {db,storage,auth ,firebaseApp};
+const analytics = getAnalytics(firebaseApp);
+export {db,storage,auth ,firebaseApp,analytics};
 

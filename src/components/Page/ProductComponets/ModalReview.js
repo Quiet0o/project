@@ -1,22 +1,30 @@
 import { addDoc, collection, Timestamp } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { db } from "../../config/firebase-config";
 import Rate from 'rc-rate';
 import 'rc-rate/assets/index.css';
 const ModalReview = (props) => {
   const { show, onClose, user, product, userAdditionalInfo } = props;
-
+  const ref = useRef(0);
   const [text, setText] = useState("");
-  const SaveReview = async () => {
-    await addDoc(collection(db, "Reviews"), {
-      userId: user.uid,
-      userFirstName: userAdditionalInfo.FirstName,
-      userLastName: userAdditionalInfo.LastName,
-      productId: product.key,
-      text: text,
-      timestamp: Timestamp.now().toDate(),
-    }).then(() => (setText(""), window.location.reload()));
+  const SaveReview = async (e) => {
+    e.preventDefault();
+    if (ref.current ==0) {
+      alert("Please select a stars")
+    }
+    else{
+
+      await addDoc(collection(db, "Reviews"), {
+        userId: user.uid,
+        userFirstName: userAdditionalInfo.FirstName,
+        userLastName: userAdditionalInfo.LastName,
+        productId: product.key,
+        text: text,
+        stars:ref.current,
+        timestamp: Timestamp.now().toDate(),
+      }).then(() => (window.location.reload()));
+    }
   };
 
   return (
@@ -25,11 +33,12 @@ const ModalReview = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>Review {product.title}</Modal.Title>
         </Modal.Header>
+         <Form onSubmit={(e)=>{SaveReview(e)}}>
         <Modal.Body>
-          <Form>
+         
             <Form.Label htmlFor="inputPassword5">Review</Form.Label><br/>
-            <Rate />
-            <br/>
+            <Rate onChange={(rate) => ref.current = rate}  />
+            
             <Form.Control
               as="textarea"
               type="text"
@@ -40,11 +49,12 @@ const ModalReview = (props) => {
               onChange={(e) => {
                 setText(e.target.value);
               }}
+              required
             />
             <Form.Text id="passwordHelpBlock" muted>
               People will see your name and review the password
             </Form.Text>
-          </Form>
+          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onClose}>
@@ -52,13 +62,14 @@ const ModalReview = (props) => {
           </Button>
           <Button
             variant="primary"
-            onClick={(e) => {
-              SaveReview();
-            }}
+         
+            
+            type="submit"
           >
             Save Changes
           </Button>
         </Modal.Footer>
+          </Form>
       </Modal>
     </div>
   );

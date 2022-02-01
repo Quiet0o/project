@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import { Button, Card } from "react-bootstrap";
@@ -24,6 +24,7 @@ import ModalReview from "./ModalReview";
 
 const Product = ({ props }) => {
   const navigate = useNavigate();
+  const ref = useRef(0);
   const { currentUser } = useAuth();
   const { CartItems, setCartItems } = useContext(CartContext);
   const [hide, setHide] = useState(false);
@@ -33,7 +34,7 @@ const Product = ({ props }) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-
+  let liczba= 0;
   const addToCart = async () => {
     localStorage.setItem("cart", JSON.stringify([...CartItems, props.key]));
 
@@ -76,7 +77,7 @@ const Product = ({ props }) => {
         }
       });
     };
-    GetBrand(props.brand);
+    // GetBrand(props.brand);
     const GetUsersReviews = async () => {
       const getProducts = [];
       const q = query(
@@ -89,9 +90,14 @@ const Product = ({ props }) => {
           key: doc.id,
           ...doc.data(),
         });
-
         setReviews([...getProducts]);
       });
+      console.log(getProducts);
+
+      getProducts.map((review) => {
+        console.log(review.stars);
+        ref.current += review.stars
+      })
     };
     GetUsersReviews();
     const getUser = async (userId) => {
@@ -106,12 +112,18 @@ const Product = ({ props }) => {
 
         setUser(...getProducts);
       });
+      
     };
-    getUser(currentUser.uid);
+    if (currentUser) {
+      
+      getUser(currentUser.uid);
+    }
+console.log(ref.current);
   }, []);
   return (
     <div className="container-fluid mt-2 mb-3">
       <div className="row no-gutters">
+
         <ModalReview
           show={show}
           onClose={handleClose}
@@ -139,8 +151,10 @@ const Product = ({ props }) => {
                 <AiFillStar fontSize="1.5em" />
                 <AiFillStar fontSize="1.5em" />
               </div>
-
-              <span className="ml-1 font-weight-bold">4.6</span>
+             
+             {reviews.length?              <span className="ml-1 font-weight-bold">{parseFloat(ref.current/reviews.length).toFixed(2)}</span>
+:  <span className="ml-1 font-weight-bold">0</span>}
+            
             </div>
             {hide ? (
               <>
@@ -178,6 +192,7 @@ const Product = ({ props }) => {
 
                 <div className="comment-section">
                   {reviews.map((review) => {
+                    
                     return (
                       <>
                         <div
@@ -189,9 +204,13 @@ const Product = ({ props }) => {
                               {review.userFirstName} {review.userLastName}
                             </span>
                           </div>
+                          
                           <div className="comment-ratings">
-                            <AiFillStar fontSize="1.5em" />
-                            <AiFillStar fontSize="1.5em" />
+                            {Array.from(Array(review.stars),(e,i)=>{
+                              return (
+                                <AiFillStar fontSize="1.5em" color="black" />
+                              )
+                            })}
                           </div>
                         </div>
                         <div className="date">
@@ -199,7 +218,7 @@ const Product = ({ props }) => {
                             className="text-muted"
                             style={{ marginRight: "2em" }}
                           >
-                            {/* {review.timestamp} */}
+                            {review.text}
                           </span>
                         </div>
                       </>
@@ -208,8 +227,8 @@ const Product = ({ props }) => {
 
                   {currentUser ? (
                     <Button onClick={handleShow}>Add review</Button>
-                  ) : (
-                    <Button href="/userLogin">
+                    ) : (
+                      <Button href="/userLogin">
                       You must login in to add reviews
                     </Button>
                   )}
@@ -230,7 +249,8 @@ const Product = ({ props }) => {
                 <AiFillStar fontSize="1.5em" />
                 <AiFillStar fontSize="1.5em" />
               </div>
-              <span className="ml-1">5.0</span>
+              {reviews.length?<span className="ml-1 font-weight-bold">{parseFloat(ref.current/reviews.length).toFixed(2)}</span>
+:  <span className="ml-1 font-weight-bold">0</span>}
             </div>
             <div className="about">
               <h1 className="font-weight-bold">{props.title}</h1>
@@ -293,6 +313,7 @@ const Product = ({ props }) => {
                     />
                     <Card.Body>
                       <h5>{product.title}</h5>
+                      {/* <h5>{product.key}</h5> */}
 
                       <h6>{product.price}zł</h6>
                     </Card.Body>
