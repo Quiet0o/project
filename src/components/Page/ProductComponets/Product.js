@@ -224,14 +224,13 @@ console.log(ref.current);
                       </>
                     );
                   })}
-
-                  {currentUser ? (
+                  {currentUser ? 
                     <Button onClick={handleShow}>Add review</Button>
-                    ) : (
+                     : 
                       <Button href="/userLogin">
                       You must login in to add reviews
                     </Button>
-                  )}
+                  }
                 </div>
               </>
             ) : (

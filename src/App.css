@@ -214,3 +214,6 @@ button {
 .off {
   color: rgb(63, 63, 63);
 }
+.g-4.row.row-cols-xxl-3.row-cols-lg-3.row-cols-sm-2.row-cols-1 {
+  margin: 5vh;
+}

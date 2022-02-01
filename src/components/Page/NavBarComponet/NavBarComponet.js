@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Mainlogo from "../../../img/logo.svg";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -15,7 +15,7 @@ import {
 import { useContext } from "react";
 import { CartContext } from "../../../Context/CartContext";
 import { SearchBarContext } from "../../../Context/SearchBarContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../../config/firebase-config";
 import { GrUser, GrUserAdmin, GrUserNew } from "react-icons/gr";
 import { useAuth } from "../../../Context/AuthContext";
@@ -24,6 +24,8 @@ const NavBarComponet = () => {
   const { CartItems, setCartItems } = useContext(CartContext);
   const { search, setSearch } = useContext(SearchBarContext);
   const { currentUser } = useAuth();
+  const [userData, setUserData] = useState([]);
+  const ref = useRef("");
 
   useEffect(() => {
     CartItems.map((CartItem) => {
@@ -42,8 +44,36 @@ const NavBarComponet = () => {
         }
       });
     });
+
+    const GetUserData = async () => {
+      const data = [];
+      let docRef = query(
+        collection(db, "Users"),
+        where("UserId", "==", currentUser.uid)
+      );
+
+      onSnapshot(docRef, (snapshot) => {
+        snapshot.forEach((doc) => {
+          data.push({
+            key: doc.id,
+            ...doc.data(),
+          });
+          setUserData([...data]);
+        });
+      });
+    };
+    if(currentUser != null) {
+
+      GetUserData();
+      userData.map((user) => {
+        ref.current = user.FirstName
+      })
+    }
+
   }, []);
+
   return (
+
     <Navbar
       bg="light"
       expand="lg"
@@ -92,18 +122,18 @@ const NavBarComponet = () => {
               <></>
             )}
           </Nav.Link>
-
+          {userData.map((users) => {
+              console.log(users.FirstName);   
+          })}
           {currentUser ? (
             <Nav.Link href="/user">
-              {currentUser ? (
-                <GrUserAdmin fontSize="2em" color="green" />
-              ) : (
-                <GrUser fontSize="2em" />
-              )}
+          
+             Witaj {ref.current}
+                
             </Nav.Link>
           ) : (
             <Nav.Link href="/userLogin">
-              <GrUser fontSize="2em" />
+             Zaloguj sie
             </Nav.Link>
           )}
         </Navbar.Collapse>
